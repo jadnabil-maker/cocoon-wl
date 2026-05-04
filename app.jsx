@@ -354,7 +354,6 @@ function App() {
         <div className="cream-area">
         <header className="chrome">
           <div className="brand">
-            <div className="brand-mark"/>
             Sinna
           </div>
           <div className="status-pill">
