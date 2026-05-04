@@ -357,13 +357,6 @@ function App() {
             <span>{fmt(animCount)} on the waiting list</span>
             <ChevDown/>
           </div>
-          <div className="user">
-            <div className="user-text">
-              <strong>Demo User</strong>
-              <span>demo@example.com</span>
-            </div>
-            <div className="user-avatar">D</div>
-          </div>
         </header>
 
         <main className="stage">
