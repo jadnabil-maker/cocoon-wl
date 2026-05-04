@@ -363,14 +363,15 @@ function App() {
           <div className="eyebrow">Private Beta · Q3 2026</div>
           <h1 className="headline">
             {stage === "success"
-              ? <>Welcome to <em>Sinna</em>.</>
-              : <>An <em>AI writing studio</em>,<br/>opening seats slowly.</>
+              ? <>Welcome to <em>Cocoon AI</em>.</>
+              : <>A <em>premium AI studio</em>,<br/>opening doors quietly.</>
             }
           </h1>
           {stage !== "success" && (
             <p className="sub">
-              Sinna is an AI writing assistant built for serious work — drafts that respect your voice,
-              research that doesn't bluff. We're letting members in slowly so the assistant stays sharp.
+              Cocoon AI is a premium Arabic-first AI workspace built for founders, teams,
+              and creators who take their work seriously — research that doesn't bluff,
+              drafts that respect your voice.
             </p>
           )}
 
