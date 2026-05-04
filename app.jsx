@@ -5,7 +5,7 @@ const fmt = (n) => n.toLocaleString("en-US");
 
 const ROLES = ["Founder", "Marketer", "Designer", "Engineer", "Writer", "Other"];
 
-// Vanity boost — added to the real DB count for display purposes only.
+// Vanity boost: added to the real DB count for display purposes only.
 // Edit this number any time. Set to 0 to show the actual count.
 const COUNT_BOOST = 988;
 
@@ -109,7 +109,7 @@ function Tiles({ onPick }) {
       <button className="tile" onClick={() => onPick("email")}>
         <div className="tile-icon"><MailIcon/></div>
         <div className="tile-title">Reserve a seat</div>
-        <div className="tile-desc">Drop your email — we'll send your invite when it's your turn.</div>
+        <div className="tile-desc">Drop your email, and we'll send your invite when it's your turn.</div>
       </button>
       <button className="tile active" onClick={() => onPick("team")}>
         <div className="tile-icon"><TeamIcon/></div>
@@ -140,7 +140,7 @@ function Form({ mode, referredBy, onBack, onSubmit }) {
     const referralCode = generateRefCode(cleanEmail);
 
     if (!window.sinnaDb || !window.sinnaDbConfigured) {
-      console.warn("[Form] Supabase not configured — using local fallback (no DB write).");
+      console.warn("[Form] Supabase not configured. Using local fallback (no DB write).");
       setTimeout(() => {
         onSubmit({
           email: cleanEmail,
@@ -172,7 +172,7 @@ function Form({ mode, referredBy, onBack, onSubmit }) {
           setServerError("This email is already on the list.");
         } else {
           console.error("[Form] Supabase insert error:", error);
-          setServerError("Something went wrong — please try again.");
+          setServerError("Something went wrong. Please try again.");
         }
         setSubmitting(false);
         return;
@@ -187,7 +187,7 @@ function Form({ mode, referredBy, onBack, onSubmit }) {
       });
     } catch (e2) {
       console.error("[Form] Network error:", e2);
-      setServerError("Connection error — check your internet.");
+      setServerError("Connection error. Check your internet.");
       setSubmitting(false);
     }
   };
@@ -264,7 +264,7 @@ function Success({ data, count, total, onReset }) {
         <h3 className="success-h">You're on the list.</h3>
       </div>
       <p className="success-sub">
-        Confirmation sent to <strong>{data.email}</strong>. We're letting members in slowly so the assistant stays sharp — your invite arrives in waves.
+        Confirmation sent to <strong>{data.email}</strong>. We're letting members in slowly so the assistant stays sharp. Your invite arrives in waves.
       </p>
 
       <div className="pos-grid">
@@ -376,7 +376,7 @@ function App() {
           {stage !== "success" && (
             <p className="sub">
               Cocoon AI is a premium Arabic-first AI workspace built for founders, teams,
-              and creators who take their work seriously — research that doesn't bluff,
+              and creators who take their work seriously: research that doesn't bluff,
               drafts that respect your voice.
             </p>
           )}
