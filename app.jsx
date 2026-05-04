@@ -5,6 +5,10 @@ const fmt = (n) => n.toLocaleString("en-US");
 
 const ROLES = ["Founder", "Marketer", "Designer", "Engineer", "Writer", "Other"];
 
+// Vanity boost — added to the real DB count for display purposes only.
+// Edit this number any time. Set to 0 to show the actual count.
+const COUNT_BOOST = 3947;
+
 /* ---------- Supabase helpers ---------- */
 const generateRefCode = (email) => {
   const seed = email.split("@")[0].slice(0, 4).toUpperCase().replace(/[^A-Z]/g, "X").padEnd(4, "X");
@@ -324,7 +328,9 @@ function App() {
 
   const total = Number(tweaks.totalSeats) || 4400;
   const tweakCount = Math.min(total, Number(tweaks.currentCount) || 0);
-  const count = realCount !== null ? Math.min(total, realCount) : tweakCount;
+  const count = realCount !== null
+    ? Math.min(total, realCount + COUNT_BOOST)
+    : tweakCount;
   const animCount = useCountUp(count, 1500);
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
 
