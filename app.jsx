@@ -7,7 +7,7 @@ const ROLES = ["Founder", "Marketer", "Designer", "Engineer", "Writer", "Other"]
 
 // Vanity boost — added to the real DB count for display purposes only.
 // Edit this number any time. Set to 0 to show the actual count.
-const COUNT_BOOST = 4935;
+const COUNT_BOOST = 988;
 
 /* ---------- Supabase helpers ---------- */
 const generateRefCode = (email) => {
