@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل الهوية البصرية — منصة الذكاء الاصطناعي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===================================================================
+     DESIGN SYSTEM DOCUMENT — Inspired by Thmanyah Visual Language
+     =================================================================== */
+
+  :root {
+    /* Core Neutrals — الركيزة */
+    --ink-0:   #FFFFFF;
+    --ink-50:  #FAFAF7;   /* off-white paper */
+    --ink-100: #F4F3EE;   /* warm cream */
+    --ink-200: #E8E6DF;
+    --ink-300: #D4D1C7;
+    --ink-400: #A8A59B;
+    --ink-500: #6B6862;
+    --ink-600: #3D3B37;
+    --ink-700: #26251F;
+    --ink-900: #111110;   /* soft black */
+
+    /* Pastel Accents — ألوان المحتوى */
+    --sand:    #E6D9C4;   /* ترابي دافئ */
+    --sage:    #C9D2C0;   /* أخضر زيتي هادئ */
+    --sky:     #C6D4DC;   /* أزرق باهت */
+    --rose:    #E8C9C4;   /* وردي خافت */
+    --mustard: #D9C789;   /* خردلي ناضج */
+    --plum:    #B8A5B0;   /* بنفسجي رمادي */
+    --terracotta: #C88F7A;/* طيني محمّر */
+
+    /* Semantic */
+    --accent:  var(--ink-900);
+    --success: #7A8C6B;
+    --danger:  #B85A4A;
+    --warning: #C79A52;
+
+    /* Typography */
+    --font-ar: "IBM Plex Sans Arabic", system-ui, sans-serif;
+    --font-en: "IBM Plex Serif", Georgia, serif;
+    --font-sans-en: "IBM Plex Sans", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+    /* Spacing */
+    --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+    --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px;
+
+    /* Radius */
+    --r-sm: 4px;  --r-md: 8px;  --r-lg: 12px;  --r-xl: 20px;  --r-full: 999px;
+
+    /* Motion */
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: var(--font-ar);
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--ink-700);
+    background: var(--ink-50);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ============ LAYOUT ============ */
+
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--ink-0);
+    border-left: 1px solid var(--ink-200);
+    padding: var(--s-7) var(--s-5);
+  }
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    margin-bottom: var(--s-7);
+    padding-bottom: var(--s-5);
+    border-bottom: 1px solid var(--ink-200);
+  }
+
+  .brand-mark {
+    width: 44px; height: 44px;
+    background: var(--ink-900);
+    color: var(--ink-0);
+    display: grid; place-items: center;
+    font-family: var(--font-en);
+    font-size: 26px;
+    font-weight: 500;
+    border-radius: var(--r-md);
+    letter-spacing: -1px;
+  }
+
+  .brand-text { font-size: 14px; color: var(--ink-500); line-height: 1.4; }
+  .brand-text strong { display:block; color: var(--ink-900); font-weight: 600; font-size: 15px; }
+
+  .sidebar nav ul { list-style: none; margin: 0; padding: 0; }
+  .sidebar nav > ul > li { margin-bottom: var(--s-5); }
+
+  .nav-heading {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-400);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: var(--s-3);
+  }
+
+  .sidebar nav a {
+    display: block;
+    padding: 6px var(--s-3);
+    color: var(--ink-600);
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: var(--r-sm);
+    transition: all .2s var(--ease);
+    border-right: 2px solid transparent;
+  }
+  .sidebar nav a:hover {
+    color: var(--ink-900);
+    background: var(--ink-100);
+  }
+
+  /* Main */
+  main {
+    max-width: 980px;
+    padding: var(--s-9) var(--s-8);
+  }
+
+  /* ============ TYPOGRAPHY ============ */
+
+  h1, h2, h3, h4 { font-family: var(--font-ar); color: var(--ink-900); margin: 0; }
+
+  h1 {
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    margin-bottom: var(--s-4);
+  }
+
+  h2 {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: var(--s-9);
+    margin-bottom: var(--s-5);
+    padding-bottom: var(--s-3);
+    border-bottom: 1px solid var(--ink-200);
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: var(--s-7);
+    margin-bottom: var(--s-3);
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: var(--s-5);
+    margin-bottom: var(--s-2);
+    color: var(--ink-700);
+  }
+
+  p { margin: 0 0 var(--s-4) 0; }
+
+  .lead {
+    font-size: 20px;
+    color: var(--ink-500);
+    line-height: 1.7;
+    max-width: 65ch;
+    margin-bottom: var(--s-7);
+  }
+
+  .meta {
+    font-family: var(--font-sans-en);
+    font-size: 12px;
+    color: var(--ink-400);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: var(--s-3);
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--ink-100);
+    color: var(--ink-700);
+    padding: 2px 6px;
+    border-radius: var(--r-sm);
+    direction: ltr;
+    display: inline-block;
+  }
+
+  /* ============ HERO ============ */
+
+  .hero {
+    margin-bottom: var(--s-8);
+    padding-bottom: var(--s-7);
+    border-bottom: 1px solid var(--ink-200);
+  }
+
+  .hero-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--ink-100);
+    color: var(--ink-600);
+    font-size: 12px;
+    font-family: var(--font-sans-en);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: var(--r-full);
+    margin-bottom: var(--s-4);
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: var(--s-6);
+    flex-wrap: wrap;
+    margin-top: var(--s-5);
+    padding-top: var(--s-5);
+    border-top: 1px dashed var(--ink-200);
+  }
+  .hero-meta > div { font-size: 13px; }
+  .hero-meta strong { display:block; color: var(--ink-400); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+
+  /* ============ COLOR SWATCHES ============ */
+
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--s-4);
+    margin: var(--s-5) 0;
+  }
+
+  .swatch {
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--ink-0);
+    transition: transform .3s var(--ease);
+  }
+  .swatch:hover { transform: translateY(-2px); }
+
+  .swatch-color {
+    height: 110px;
+    border-bottom: 1px solid var(--ink-200);
+  }
+  .swatch-info { padding: var(--s-3); }
+  .swatch-name {
+    font-family: var(--font-ar);
+    font-weight: 600;
+    color: var(--ink-900);
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-500);
+    direction: ltr;
+    text-align: left;
+  }
+  .swatch-role {
+    font-size: 11px;
+    color: var(--ink-400);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ============ TYPE SPECIMEN ============ */
+
+  .type-specimen {
+    background: var(--ink-0);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+    margin: var(--s-5) 0;
+  }
+
+  .specimen-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: var(--s-3);
+    margin-bottom: var(--s-4);
+    border-bottom: 1px dashed var(--ink-200);
+  }
+  .specimen-label h4 { margin: 0; }
+  .specimen-label span {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-400);
+    direction: ltr;
+  }
+
+  .spec-display    { font-size: 64px; font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; color: var(--ink-900); margin: 0; }
+  .spec-h1         { font-size: 44px; font-weight: 600; line-height: 1.2;  letter-spacing: -0.5px; color: var(--ink-900); margin: 0; }
+  .spec-h2         { font-size: 32px; font-weight: 600; line-height: 1.3; color: var(--ink-900); margin: 0; }
+  .spec-h3         { font-size: 22px; font-weight: 600; line-height: 1.4; color: var(--ink-800, #1a1a17); margin: 0; }
+  .spec-body-large { font-size: 19px; font-weight: 400; line-height: 1.75; color: var(--ink-700); margin: 0; }
+  .spec-body       { font-size: 16px; font-weight: 400; line-height: 1.7;  color: var(--ink-700); margin: 0; }
+  .spec-caption    { font-size: 13px; font-weight: 400; line-height: 1.5;  color: var(--ink-500); margin: 0; }
+
+  .spec-serif {
+    font-family: var(--font-en);
+    font-size: 40px;
+    line-height: 1.2;
+    font-weight: 400;
+    color: var(--ink-900);
+    direction: ltr;
+    text-align: left;
+  }
+
+  /* ============ COMPONENTS SHOWCASE ============ */
+
+  .showcase {
+    background: var(--ink-0);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+    margin: var(--s-5) 0;
+  }
+
+  .showcase-frame {
+    background: var(--ink-50);
+    border-radius: var(--r-md);
+    padding: var(--s-6);
+    display: flex;
+    gap: var(--s-4);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Buttons */
+  .btn {
+    font-family: var(--font-ar);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: var(--r-full);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .2s var(--ease);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .btn-primary    { background: var(--ink-900); color: var(--ink-0); }
+  .btn-primary:hover { background: var(--ink-700); transform: translateY(-1px); }
+  .btn-secondary  { background: transparent; color: var(--ink-900); border-color: var(--ink-300); }
+  .btn-secondary:hover { background: var(--ink-100); border-color: var(--ink-500); }
+  .btn-ghost      { background: transparent; color: var(--ink-600); }
+  .btn-ghost:hover { color: var(--ink-900); background: var(--ink-100); }
+
+  /* Inputs */
+  .input {
+    width: 100%;
+    padding: 14px 18px;
+    font-family: var(--font-ar);
+    font-size: 15px;
+    color: var(--ink-700);
+    background: var(--ink-0);
+    border: 1px solid var(--ink-300);
+    border-radius: var(--r-md);
+    transition: all .2s var(--ease);
+  }
+  .input:focus { outline: none; border-color: var(--ink-900); box-shadow: 0 0 0 3px var(--ink-100); }
+  .input::placeholder { color: var(--ink-400); }
+
+  /* Cards */
+  .card {
+    background: var(--ink-0);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-lg);
+    padding: var(--s-5);
+    max-width: 360px;
+  }
+  .card-tag {
+    font-size: 11px;
+    color: var(--ink-500);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: var(--s-3);
+    font-family: var(--font-sans-en);
+  }
+  .card h4 { font-size: 20px; margin: 0 0 var(--s-2) 0; }
+  .card p { font-size: 14px; color: var(--ink-500); margin: 0; }
+
+  /* Chat bubble */
+  .chat-frame {
+    background: var(--ink-0);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-lg);
+    padding: var(--s-5);
+    max-width: 500px;
+    margin: var(--s-4) 0;
+  }
+  .bubble {
+    padding: 12px 16px;
+    border-radius: var(--r-lg);
+    max-width: 80%;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: var(--s-3);
+  }
+  .bubble-user { background: var(--ink-900); color: var(--ink-0); margin-inline-start: auto; border-bottom-right-radius: 4px; }
+  .bubble-ai   { background: var(--ink-100); color: var(--ink-700); border-bottom-left-radius: 4px; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--s-4) 0;
+    font-size: 14px;
+  }
+  th, td {
+    padding: var(--s-3) var(--s-4);
+    text-align: right;
+    border-bottom: 1px solid var(--ink-200);
+  }
+  th {
+    background: var(--ink-100);
+    font-weight: 600;
+    color: var(--ink-700);
+    font-size: 13px;
+    letter-spacing: 0.3px;
+  }
+  td code { font-size: 12px; }
+
+  /* ============ DO / DON'T ============ */
+  .do-dont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-4);
+    margin: var(--s-4) 0;
+  }
+  .do-box, .dont-box {
+    padding: var(--s-5);
+    border-radius: var(--r-md);
+    border: 1px solid var(--ink-200);
+    background: var(--ink-0);
+  }
+  .do-box    { border-top: 3px solid var(--success); }
+  .dont-box  { border-top: 3px solid var(--danger); }
+  .do-box strong, .dont-box strong {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: var(--s-2);
+  }
+  .do-box strong   { color: var(--success); }
+  .dont-box strong { color: var(--danger); }
+
+  /* Spacing scale */
+  .spacing-demo { display: flex; flex-direction: column; gap: var(--s-3); margin: var(--s-4) 0; }
+  .spacing-row  { display: flex; align-items: center; gap: var(--s-4); font-size: 13px; color: var(--ink-500); }
+  .spacing-bar  { height: 8px; background: var(--ink-900); border-radius: 2px; }
+  .spacing-row code { min-width: 60px; }
+
+  /* Radius demo */
+  .radius-demo { display: flex; gap: var(--s-4); margin: var(--s-4) 0; flex-wrap: wrap; }
+  .radius-box  {
+    width: 80px; height: 80px;
+    background: var(--ink-100);
+    border: 1px solid var(--ink-200);
+    display: grid; place-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-600);
+  }
+
+  /* Elevation */
+  .elevation-demo { display: flex; gap: var(--s-5); margin: var(--s-5) 0; flex-wrap: wrap; }
+  .elev-box {
+    width: 120px; height: 90px;
+    background: var(--ink-0);
+    border-radius: var(--r-md);
+    display: grid; place-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-500);
+  }
+  .elev-0 { border: 1px solid var(--ink-200); }
+  .elev-1 { box-shadow: 0 1px 2px rgba(17, 17, 16, 0.04), 0 1px 3px rgba(17, 17, 16, 0.06); }
+  .elev-2 { box-shadow: 0 4px 6px rgba(17, 17, 16, 0.04), 0 2px 4px rgba(17, 17, 16, 0.06); }
+  .elev-3 { box-shadow: 0 10px 20px rgba(17, 17, 16, 0.06), 0 3px 6px rgba(17, 17, 16, 0.08); }
+
+  /* Logo mark placeholder */
+  .logo-study {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--s-4);
+    margin: var(--s-5) 0;
+  }
+  .logo-frame {
+    aspect-ratio: 1.4 / 1;
+    display: grid; place-items: center;
+    border-radius: var(--r-lg);
+    font-family: var(--font-en);
+    position: relative;
+    overflow: hidden;
+  }
+  .logo-frame .word {
+    font-family: var(--font-ar);
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -1px;
+  }
+  .logo-frame .latin {
+    position: absolute;
+    bottom: 20px;
+    font-family: var(--font-en);
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .logo-light { background: var(--ink-50); color: var(--ink-900); border: 1px solid var(--ink-200); }
+  .logo-dark  { background: var(--ink-900); color: var(--ink-50); }
+  .logo-cream { background: var(--sand); color: var(--ink-900); }
+
+  /* Principles */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--s-4);
+    margin: var(--s-5) 0;
+  }
+  .principle {
+    padding: var(--s-5);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-md);
+    background: var(--ink-0);
+  }
+  .principle-num {
+    font-family: var(--font-en);
+    font-size: 32px;
+    color: var(--ink-400);
+    line-height: 1;
+    margin-bottom: var(--s-2);
+  }
+  .principle h4 { font-size: 17px; margin-bottom: 4px; }
+  .principle p { font-size: 13px; color: var(--ink-500); line-height: 1.6; margin: 0; }
+
+  /* Section dividers */
+  hr {
+    border: none;
+    border-top: 1px solid var(--ink-200);
+    margin: var(--s-8) 0;
+  }
+
+  /* Print */
+  @media print {
+    .sidebar { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    main { padding: var(--s-5); }
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; border-left: none; border-bottom: 1px solid var(--ink-200); }
+    main { padding: var(--s-5); }
+    h1 { font-size: 40px; }
+    h2 { font-size: 28px; }
+    .do-dont-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-mark">٨</div>
+      <div class="brand-text">
+        <strong>دليل الهوية البصرية</strong>
+        الإصدار ١٫٠
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li>
+          <div class="nav-heading">الأساسيات</div>
+          <ul>
+            <li><a href="#intro">المقدمة</a></li>
+            <li><a href="#principles">مبادئ التصميم</a></li>
+            <li><a href="#voice">الصوت واللهجة</a></li>
+          </ul>
+        </li>
+        <li>
+          <div class="nav-heading">الهوية</div>
+          <ul>
+            <li><a href="#logo">الشعار</a></li>
+            <li><a href="#colors">الألوان</a></li>
+            <li><a href="#typography">الخطوط</a></li>
+          </ul>
+        </li>
+        <li>
+          <div class="nav-heading">النظام</div>
+          <ul>
+            <li><a href="#spacing">المساحات والشبكة</a></li>
+            <li><a href="#radius">الانحناءات</a></li>
+            <li><a href="#elevation">الظلال والعمق</a></li>
+            <li><a href="#motion">الحركة</a></li>
+          </ul>
+        </li>
+        <li>
+          <div class="nav-heading">المكونات</div>
+          <ul>
+            <li><a href="#buttons">الأزرار</a></li>
+            <li><a href="#inputs">حقول الإدخال</a></li>
+            <li><a href="#cards">البطاقات</a></li>
+            <li><a href="#chat">واجهة المحادثة</a></li>
+          </ul>
+        </li>
+        <li>
+          <div class="nav-heading">الإرشادات</div>
+          <ul>
+            <li><a href="#imagery">الصور والتصوير</a></li>
+            <li><a href="#do-dont">افعل / لا تفعل</a></li>
+            <li><a href="#tokens">رموز التصميم</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="intro">
+      <div class="hero-tag">Design System · v1.0</div>
+      <h1>دليل الهوية البصرية<br>لمنصة الذكاء الاصطناعي</h1>
+      <p class="lead">
+        هذا الدليل هو المرجع الموحّد للفريق بأكمله — المصممين والمطوّرين وصنّاع المحتوى.
+        هدفه ضمان اتساق تام في كل نقطة لمس مع المستخدم، من أصغر أيقونة إلى أكبر صفحة هبوط،
+        ومن شاشة تسجيل الدخول إلى أعمق محادثة مع المساعد الذكي.
+      </p>
+      <div class="hero-meta">
+        <div><strong>الجمهور</strong>أصحاب المشاريع والشركات</div>
+        <div><strong>المستوى</strong>Premium · احترافي</div>
+        <div><strong>الطابع</strong>أصيل · بسيط · حديث</div>
+        <div><strong>اللغة الأولى</strong>العربية (RTL)</div>
+      </div>
+    </section>
+
+    <!-- ========== PRINCIPLES ========== -->
+    <section id="principles">
+      <h2>مبادئ التصميم</h2>
+      <p class="lead">
+        أربعة مبادئ تحكم كل قرار تصميمي. إذا تعارض قرار مع أحد هذه المبادئ — نعيد النظر فيه.
+      </p>
+
+      <div class="principles">
+        <div class="principle">
+          <div class="principle-num">01</div>
+          <h4>الأصالة قبل الاتجاه</h4>
+          <p>نستلهم من التراث الطباعي العربي — خط النسخ، الأرقام الهندية، هامش واسع للقراءة — بدل اللحاق بموضة لحظية.</p>
+        </div>
+        <div class="principle">
+          <div class="principle-num">02</div>
+          <h4>الهدوء وسام احترام</h4>
+          <p>لا صراخ بصري. ألوان باستيل هادئة، تباين مدروس، مساحات بيضاء كريمة. نترك المحتوى يتكلم.</p>
+        </div>
+        <div class="principle">
+          <div class="principle-num">03</div>
+          <h4>القراءة هي البطل</h4>
+          <p>كل قرار — حجم الخط، طول السطر، التباعد — يخدم تجربة قراءة مريحة تليق بجمهور يقدّر الكلمة.</p>
+        </div>
+        <div class="principle">
+          <div class="principle-num">04</div>
+          <h4>دقة تحريرية</h4>
+          <p>نعامل كل شاشة كصفحة من مجلة راقية — شبكة محسوبة، توازن أنيق، تفاصيل طباعية لا يراها إلا المدقّق.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== VOICE ========== -->
+    <section id="voice">
+      <h2>الصوت واللهجة</h2>
+      <p>اللهجة عربية فصيحة معاصرة — لا سجع متكلّف، ولا ركاكة إنجليزية مترجمة. جُمل قصيرة، أفعال واضحة، احترام لذكاء القارئ.</p>
+
+      <div class="do-dont-grid">
+        <div class="do-box">
+          <strong>نعم</strong>
+          <p style="margin:0">«ابدأ مشروعك. سنساعدك في الباقي.»</p>
+        </div>
+        <div class="dont-box">
+          <strong>لا</strong>
+          <p style="margin:0">«انطلق الآن في رحلة لا مثيل لها نحو عالم الإبداع الرقمي!»</p>
+        </div>
+      </div>
+
+      <h3>نبرات مختلفة لمواقع مختلفة</h3>
+      <table>
+        <thead>
+          <tr><th>السياق</th><th>النبرة</th><th>مثال</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>الصفحات التسويقية</td><td>واثقة، موجزة، إنسانية</td><td>«أدوات ذكاء اصطناعي، مصمّمة للعمل الجاد.»</td></tr>
+          <tr><td>داخل التطبيق</td><td>محايدة، وظيفية، مباشرة</td><td>«احفظ التغييرات» — لا «قم بحفظ التغييرات الآن».</td></tr>
+          <tr><td>رسائل الخطأ</td><td>مهذّبة، توضّح الحل</td><td>«تعذّر الاتصال. جرّب تحديث الصفحة.»</td></tr>
+          <tr><td>رسائل النجاح</td><td>قصيرة، بدون مبالغة</td><td>«تم». «أُرسلت الرسالة.»</td></tr>
+          <tr><td>المساعد الذكي</td><td>ذكيّ مهذّب، لا يتصنّع الودّ</td><td>«هذه مسودة أولى. أخبرني ما تريد تعديله.»</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ========== LOGO ========== -->
+    <section id="logo">
+      <h2>الشعار</h2>
+      <p>الشعار ثنائي اللغة — العربية بخط النسخ الحديث، واللاتينية بخط Serif يحمل نفس الوزن الجمالي. الأيقونة المختصرة هي الرقم «٨» بالأرقام الهندية، ترمز للأصالة والتميّز.</p>
+
+      <div class="logo-study">
+        <div class="logo-frame logo-light">
+          <span class="word">منصّة</span>
+          <span class="latin">Platform</span>
+        </div>
+        <div class="logo-frame logo-dark">
+          <span class="word">منصّة</span>
+          <span class="latin">Platform</span>
+        </div>
+        <div class="logo-frame logo-cream">
+          <span class="word">منصّة</span>
+          <span class="latin">Platform</span>
+        </div>
+      </div>
+
+      <h3>المساحة الآمنة</h3>
+      <p>احفظ حول الشعار مساحة فارغة لا تقلّ عن ارتفاع الحرف الرئيسي. لا يجوز وضع عناصر أخرى داخل هذه المساحة.</p>
+
+      <h3>الأحجام الدنيا</h3>
+      <table>
+        <thead><tr><th>الوسط</th><th>الحد الأدنى للعرض</th><th>الاستخدام</th></tr></thead>
+        <tbody>
+          <tr><td>شاشة</td><td>120px</td><td>شعار كامل</td></tr>
+          <tr><td>شاشة</td><td>24px</td><td>أيقونة ٨ فقط (favicon)</td></tr>
+          <tr><td>طباعة</td><td>25mm</td><td>شعار كامل</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ========== COLORS ========== -->
+    <section id="colors">
+      <h2>الألوان</h2>
+      <p class="lead">
+        النظام مبني على محور واحد أبيض‑أسود بارد دافئ، تُضاف إليه لمسات باستيلية هادئة للتمييز والتصنيف.
+        لا ألوان نيون، لا تباينات صاخبة. كل لون اختير ليتعايش مع الأبيض الكريمي دون أن يفرض نفسه.
+      </p>
+
+      <h3>الركيزة — Neutrals</h3>
+      <p>هذه الألوان تمثّل 85% من أي شاشة. الأبيض الكريمي هو الخلفية الافتراضية، والأسود الناعم هو النص والعنصر الرئيسي.</p>
+
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid var(--ink-200);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ink / 0</div>
+            <div class="swatch-hex">#FFFFFF</div>
+            <div class="swatch-role">الأبيض النقي — للبطاقات فوق الخلفية</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FAFAF7;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ink / 50</div>
+            <div class="swatch-hex">#FAFAF7</div>
+            <div class="swatch-role">الخلفية الأساسية — أبيض كريمي دافئ</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F4F3EE;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ink / 100</div>
+            <div class="swatch-hex">#F4F3EE</div>
+            <div class="swatch-role">خلفيات ثانوية، حقول، hover</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E8E6DF;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ink / 200</div>
+            <div class="swatch-hex">#E8E6DF</div>
+            <div class="swatch-role">الحدود والفواصل</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#D4D1C7;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ink / 300</div>
+            <div class="swatch-hex">#D4D1C7</div>
+            <div class="swatch-role">حدود الحقول، أيقونات خفيفة</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#A8A59B;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ink / 400</div>
+            <div class="swatch-hex">#A8A59B</div>
+            <div class="swatch-role">Placeholder، بيانات وصفية</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#6B6862;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ink / 500</div>
+            <div class="swatch-hex">#6B6862</div>
+            <div class="swatch-role">النص الثانوي</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#3D3B37;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ink / 600</div>
+            <div class="swatch-hex">#3D3B37</div>
+            <div class="swatch-role">نص الفقرات</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#111110;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ink / 900</div>
+            <div class="swatch-hex">#111110</div>
+            <div class="swatch-role">العناوين، الأزرار الأساسية، الشعار</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>الألوان الدلاليّة — Pastel Accents</h3>
+      <p>ألوان باستيل مشبعة بالقليل، مستوحاة من صفحات كتاب قديم. تُستخدم بحذر — لتمييز تصنيف، أو إبراز بطاقة مميزة، أو كخلفية لقسم. <strong>لا تُستخدم للنصوص ولا للأزرار الأساسية.</strong></p>
+
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E6D9C4;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Sand · ترابي</div>
+            <div class="swatch-hex">#E6D9C4</div>
+            <div class="swatch-role">فئة: المحتوى النصي</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#C9D2C0;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Sage · زيتي</div>
+            <div class="swatch-hex">#C9D2C0</div>
+            <div class="swatch-role">فئة: النجاح، الاستدامة</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#C6D4DC;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Sky · سماوي</div>
+            <div class="swatch-hex">#C6D4DC</div>
+            <div class="swatch-role">فئة: المعلومات، الذكاء</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E8C9C4;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Rose · وردي</div>
+            <div class="swatch-hex">#E8C9C4</div>
+            <div class="swatch-role">فئة: الإبداع، المحتوى البصري</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#D9C789;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Mustard · خردلي</div>
+            <div class="swatch-hex">#D9C789</div>
+            <div class="swatch-role">فئة: Premium، الميزات المدفوعة</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#B8A5B0;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Plum · برقوقي</div>
+            <div class="swatch-hex">#B8A5B0</div>
+            <div class="swatch-role">فئة: التحليلات، البيانات</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#C88F7A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Terracotta · طيني</div>
+            <div class="swatch-hex">#C88F7A</div>
+            <div class="swatch-role">فئة: التسويق، الوصول للجمهور</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>الألوان الوظيفية — Semantic</h3>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#7A8C6B;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Success · نجاح</div>
+            <div class="swatch-hex">#7A8C6B</div>
+            <div class="swatch-role">العمليات الناجحة، التأكيدات</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#C79A52;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Warning · تحذير</div>
+            <div class="swatch-hex">#C79A52</div>
+            <div class="swatch-role">التحذيرات غير الحرجة</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#B85A4A;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Danger · خطر</div>
+            <div class="swatch-hex">#B85A4A</div>
+            <div class="swatch-role">الأخطاء، الحذف، الإجراءات الحرجة</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>قواعد الاستخدام</h3>
+      <div class="do-dont-grid">
+        <div class="do-box">
+          <strong>افعل</strong>
+          <p style="margin:0 0 8px 0">استخدم 85٪ Neutrals + 15٪ Accent كحدٍ أقصى.</p>
+          <p style="margin:0 0 8px 0">اختر لوناً واحداً للقسم الواحد، لا تخلط.</p>
+          <p style="margin:0">استخدم الألوان الباستيلية كخلفيات هادئة، لا كعناصر فاعلة.</p>
+        </div>
+        <div class="dont-box">
+          <strong>لا تفعل</strong>
+          <p style="margin:0 0 8px 0">لا تستخدم التدرجات الحادّة (gradients) النيونية.</p>
+          <p style="margin:0 0 8px 0">لا تستخدم الألوان الباستيلية للنصوص — تباينها ضعيف.</p>
+          <p style="margin:0">لا تخلط أكثر من لونين accent في شاشة واحدة.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TYPOGRAPHY ========== -->
+    <section id="typography">
+      <h2>الخطوط</h2>
+      <p class="lead">
+        الطباعة هي قلب الهوية. نستخدم عائلة IBM Plex — المفتوحة المصدر، المدروسة أكاديمياً،
+        المتوفرة بنسخة عربية ولاتينية وSerif متسقة جمالياً. الخط العربي يحمل روح النسخ الحديث،
+        واللاتيني Serif يحمل نفس الوقار لعنونة اللوجو أو الاقتباسات.
+      </p>
+
+      <h3>الخط الأساسي — IBM Plex Sans Arabic</h3>
+      <p>للنصوص العربية بكل أحجامها وأوزانها. يُغطي 100٪ من الواجهة.</p>
+
+      <div class="type-specimen">
+        <div class="specimen-label">
+          <h4>Display</h4>
+          <span>64px / 700 / -1.5</span>
+        </div>
+        <p class="spec-display">الكلمة الأولى تصنع الانطباع</p>
+      </div>
+
+      <div class="type-specimen">
+        <div class="specimen-label">
+          <h4>Heading 1</h4>
+          <span>44px / 600 / -0.5</span>
+        </div>
+        <p class="spec-h1">منصّة ذكاء اصطناعي للمحتوى العربي</p>
+      </div>
+
+      <div class="type-specimen">
+        <div class="specimen-label">
+          <h4>Heading 2</h4>
+          <span>32px / 600</span>
+        </div>
+        <p class="spec-h2">أدوات مصمّمة لأصحاب المشاريع الجادّين</p>
+      </div>
+
+      <div class="type-specimen">
+        <div class="specimen-label">
+          <h4>Heading 3</h4>
+          <span>22px / 600</span>
+        </div>
+        <p class="spec-h3">ولّد نصوصاً عربية احترافية بنبرة علامتك التجارية</p>
+      </div>
+
+      <div class="type-specimen">
+        <div class="specimen-label">
+          <h4>Body Large</h4>
+          <span>19px / 400 / 1.75</span>
+        </div>
+        <p class="spec-body-large">
+          حين تكتب فكرةً وتضغط «أرسل»، يبدأ النموذج بفهم السياق — لمن تتحدث؟ ولأي هدف؟ ثم يقترح عليك
+          مسودّات متعددة، كل واحدة بزاوية مختلفة، لتختار الأقرب لصوتك.
+        </p>
+      </div>
+
+      <div class="type-specimen">
+        <div class="specimen-label">
+          <h4>Body — Default</h4>
+          <span>16px / 400 / 1.7</span>
+        </div>
+        <p class="spec-body">
+          هذا هو الحجم الافتراضي لكل نصوص الواجهة والمحادثات. اختيرت الأرقام بعناية لتوفّر راحة قراءة
+          على شاشات المكتب والأجهزة المحمولة معاً، مع هامش سطري كريم يليق بلغةٍ تستحق التأمّل.
+        </p>
+      </div>
+
+      <div class="type-specimen">
+        <div class="specimen-label">
+          <h4>Caption</h4>
+          <span>13px / 400 / 1.5</span>
+        </div>
+        <p class="spec-caption">آخر تعديل قبل دقيقتين · المؤلف: فريق المحتوى</p>
+      </div>
+
+      <h3>الخط الفرعي — IBM Plex Serif</h3>
+      <p>للأرقام الكبيرة، الاقتباسات، العنونة اللاتينية في الشعار، والعناصر التحريرية المميزة. يُستخدم بحذر.</p>
+
+      <div class="type-specimen">
+        <div class="specimen-label">
+          <h4>Serif Display (Latin)</h4>
+          <span>40px / 400</span>
+        </div>
+        <p class="spec-serif">Built for Arabic. Designed for Business.</p>
+      </div>
+
+      <h3>سلّم الأحجام — Type Scale</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>الاسم</th>
+            <th>الحجم</th>
+            <th>الوزن</th>
+            <th>ارتفاع السطر</th>
+            <th>Tracking</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Display</td><td><code>64px</code></td><td>700</td><td>1.1</td><td>-1.5px</td></tr>
+          <tr><td>H1</td><td><code>44px</code></td><td>600</td><td>1.2</td><td>-0.5px</td></tr>
+          <tr><td>H2</td><td><code>32px</code></td><td>600</td><td>1.3</td><td>0</td></tr>
+          <tr><td>H3</td><td><code>22px</code></td><td>600</td><td>1.4</td><td>0</td></tr>
+          <tr><td>H4</td><td><code>18px</code></td><td>600</td><td>1.5</td><td>0</td></tr>
+          <tr><td>Body Large</td><td><code>19px</code></td><td>400</td><td>1.75</td><td>0</td></tr>
+          <tr><td>Body</td><td><code>16px</code></td><td>400</td><td>1.7</td><td>0</td></tr>
+          <tr><td>Small</td><td><code>14px</code></td><td>400</td><td>1.6</td><td>0</td></tr>
+          <tr><td>Caption</td><td><code>13px</code></td><td>400</td><td>1.5</td><td>0.2px</td></tr>
+          <tr><td>Label</td><td><code>11px</code></td><td>600</td><td>1.4</td><td>1.5px · UPPERCASE</td></tr>
+        </tbody>
+      </table>
+
+      <h3>قواعد ذهبية</h3>
+      <div class="do-dont-grid">
+        <div class="do-box">
+          <strong>افعل</strong>
+          <p style="margin:0 0 8px 0">احرص على سطر طوله 60–80 حرفاً للقراءة المريحة.</p>
+          <p style="margin:0 0 8px 0">استخدم وزن 600 للعناوين، و400 للنصوص.</p>
+          <p style="margin:0">اترك مسافة 1.7×حجم الخط على الأقل بين الأسطر.</p>
+        </div>
+        <div class="dont-box">
+          <strong>لا تفعل</strong>
+          <p style="margin:0 0 8px 0">لا تستخدم أكثر من خطين في الشاشة الواحدة.</p>
+          <p style="margin:0 0 8px 0">لا تكتب عناوين بوزن 300 أو أخف — تضعف في العربية.</p>
+          <p style="margin:0">لا تَمدّ السطر لأكثر من 90 حرفاً في النص الطويل.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SPACING ========== -->
+    <section id="spacing">
+      <h2>المساحات والشبكة</h2>
+      <p>نظام قائم على مضاعفات الـ 4px. لا استثناءات. كل padding، كل margin، كل gap — من هذا السلّم.</p>
+
+      <div class="spacing-demo">
+        <div class="spacing-row"><code>--s-1</code> <div class="spacing-bar" style="width:4px"></div><span>4px — دقائق التنسيق الداخلية</span></div>
+        <div class="spacing-row"><code>--s-2</code> <div class="spacing-bar" style="width:8px"></div><span>8px — تباعد الأيقونات والنصوص</span></div>
+        <div class="spacing-row"><code>--s-3</code> <div class="spacing-bar" style="width:12px"></div><span>12px — داخل العناصر الصغيرة</span></div>
+        <div class="spacing-row"><code>--s-4</code> <div class="spacing-bar" style="width:16px"></div><span>16px — الوحدة الأساسية</span></div>
+        <div class="spacing-row"><code>--s-5</code> <div class="spacing-bar" style="width:24px"></div><span>24px — بين البطاقات</span></div>
+        <div class="spacing-row"><code>--s-6</code> <div class="spacing-bar" style="width:32px"></div><span>32px — بين الأقسام الصغيرة</span></div>
+        <div class="spacing-row"><code>--s-7</code> <div class="spacing-bar" style="width:48px"></div><span>48px — بين الأقسام الكبيرة</span></div>
+        <div class="spacing-row"><code>--s-8</code> <div class="spacing-bar" style="width:64px"></div><span>64px — فواصل رئيسية</span></div>
+        <div class="spacing-row"><code>--s-9</code> <div class="spacing-bar" style="width:96px"></div><span>96px — أعلى الصفحة / hero sections</span></div>
+      </div>
+
+      <h3>الشبكة — Grid</h3>
+      <table>
+        <thead>
+          <tr><th>المقاس</th><th>النقطة الفاصلة</th><th>الأعمدة</th><th>الهامش الخارجي</th><th>المسافة بين الأعمدة</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Mobile</td><td>&lt; 640px</td><td>4</td><td>16px</td><td>16px</td></tr>
+          <tr><td>Tablet</td><td>640–1024px</td><td>8</td><td>32px</td><td>24px</td></tr>
+          <tr><td>Desktop</td><td>1024–1440px</td><td>12</td><td>64px</td><td>24px</td></tr>
+          <tr><td>Wide</td><td>&gt; 1440px</td><td>12</td><td>auto (max-width: 1280px)</td><td>32px</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ========== RADIUS ========== -->
+    <section id="radius">
+      <h2>الانحناءات</h2>
+      <p>نحن نفضّل الحواف الناعمة، لكن ليست الدائرية. انحناءات محسوبة تعطي دفئاً دون بهرجة.</p>
+
+      <div class="radius-demo">
+        <div class="radius-box" style="border-radius:0">0<br>square</div>
+        <div class="radius-box" style="border-radius:4px">4px<br>sm</div>
+        <div class="radius-box" style="border-radius:8px">8px<br>md</div>
+        <div class="radius-box" style="border-radius:12px">12px<br>lg</div>
+        <div class="radius-box" style="border-radius:20px">20px<br>xl</div>
+        <div class="radius-box" style="border-radius:999px">pill</div>
+      </div>
+
+      <table>
+        <thead><tr><th>الرمز</th><th>الاستخدام</th></tr></thead>
+        <tbody>
+          <tr><td><code>--r-sm: 4px</code></td><td>الشارات (badges)، رموز الكود</td></tr>
+          <tr><td><code>--r-md: 8px</code></td><td>حقول الإدخال، الأزرار المستطيلة، الصور</td></tr>
+          <tr><td><code>--r-lg: 12px</code></td><td>البطاقات، الصناديق الحاوية</td></tr>
+          <tr><td><code>--r-xl: 20px</code></td><td>النوافذ المنبثقة (modals)، الأقسام المميزة</td></tr>
+          <tr><td><code>--r-full: 999px</code></td><td>الأزرار الدائرية، الشارات الصغيرة، الصور الشخصية</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ========== ELEVATION ========== -->
+    <section id="elevation">
+      <h2>الظلال والعمق</h2>
+      <p>ظلال خفيفة جداً. الهدف الإيحاء بالعمق لا إعلانه. أربعة مستويات فقط.</p>
+
+      <div class="elevation-demo">
+        <div class="elev-box elev-0">Level 0<br>border</div>
+        <div class="elev-box elev-1">Level 1<br>subtle</div>
+        <div class="elev-box elev-2">Level 2<br>card</div>
+        <div class="elev-box elev-3">Level 3<br>modal</div>
+      </div>
+
+      <table>
+        <thead><tr><th>المستوى</th><th>الكود</th><th>الاستخدام</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Level 0</td>
+            <td><code>border: 1px solid var(--ink-200)</code></td>
+            <td>العناصر الساكنة، البطاقات الأساسية</td>
+          </tr>
+          <tr>
+            <td>Level 1</td>
+            <td><code>0 1px 3px rgba(17,17,16,.06)</code></td>
+            <td>الأزرار المرفوعة، البطاقات hover</td>
+          </tr>
+          <tr>
+            <td>Level 2</td>
+            <td><code>0 4px 6px rgba(17,17,16,.06)</code></td>
+            <td>البطاقات البارزة، القوائم المنسدلة</td>
+          </tr>
+          <tr>
+            <td>Level 3</td>
+            <td><code>0 10px 20px rgba(17,17,16,.08)</code></td>
+            <td>النوافذ المنبثقة، العناصر العائمة</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ========== MOTION ========== -->
+    <section id="motion">
+      <h2>الحركة</h2>
+      <p>الحركة خادمة، لا مستعرضة. مدة قصيرة، منحنى واحد، لا ارتدادات.</p>
+
+      <table>
+        <thead><tr><th>المدة</th><th>القيمة</th><th>الاستخدام</th></tr></thead>
+        <tbody>
+          <tr><td>Instant</td><td><code>100ms</code></td><td>hover، focus، تغيرات لونية</td></tr>
+          <tr><td>Quick</td><td><code>200ms</code></td><td>الأزرار، الأيقونات، عناصر التفاعل</td></tr>
+          <tr><td>Standard</td><td><code>300ms</code></td><td>القوائم المنسدلة، التبويبات</td></tr>
+          <tr><td>Smooth</td><td><code>500ms</code></td><td>النوافذ المنبثقة، الانتقالات الكبيرة</td></tr>
+        </tbody>
+      </table>
+
+      <h3>منحنى التوقيت</h3>
+      <p><code>cubic-bezier(0.2, 0.8, 0.2, 1)</code> — منحنى بدء سريع ونهاية لينة. يصلح لكل شيء تقريباً.</p>
+    </section>
+
+    <!-- ========== BUTTONS ========== -->
+    <section id="buttons">
+      <h2>الأزرار</h2>
+      <p>ثلاثة أنماط فقط: أساسي، ثانوي، شبح. لا نحتاج أكثر.</p>
+
+      <div class="showcase">
+        <div class="showcase-frame">
+          <button class="btn btn-primary">ابدأ الآن</button>
+          <button class="btn btn-secondary">اعرف أكثر</button>
+          <button class="btn btn-ghost">إلغاء</button>
+        </div>
+      </div>
+
+      <table>
+        <thead><tr><th>النمط</th><th>الاستخدام</th><th>القاعدة</th></tr></thead>
+        <tbody>
+          <tr><td>Primary</td><td>الفعل الرئيسي في الشاشة</td><td>واحد فقط في كل شاشة</td></tr>
+          <tr><td>Secondary</td><td>الفعل البديل، الإلغاء مع حدود</td><td>لا يزاحم الأساسي</td></tr>
+          <tr><td>Ghost</td><td>الأفعال الثانوية، الروابط التفاعلية</td><td>داخل الجداول والقوائم</td></tr>
+        </tbody>
+      </table>
+
+      <h3>المواصفات</h3>
+      <table>
+        <thead><tr><th>الخاصية</th><th>القيمة</th></tr></thead>
+        <tbody>
+          <tr><td>Padding</td><td><code>12px 24px</code></td></tr>
+          <tr><td>Font Size</td><td><code>15px</code></td></tr>
+          <tr><td>Font Weight</td><td><code>500</code></td></tr>
+          <tr><td>Border Radius</td><td><code>999px</code> (pill)</td></tr>
+          <tr><td>Hover</td><td>رفع بمقدار 1px + تغميق الخلفية درجة واحدة</td></tr>
+          <tr><td>Focus Ring</td><td><code>0 0 0 3px var(--ink-100)</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ========== INPUTS ========== -->
+    <section id="inputs">
+      <h2>حقول الإدخال</h2>
+
+      <div class="showcase">
+        <div class="showcase-frame" style="flex-direction:column; align-items:stretch; max-width:400px">
+          <input class="input" placeholder="البريد الإلكتروني">
+          <input class="input" type="password" placeholder="كلمة المرور">
+        </div>
+      </div>
+
+      <table>
+        <thead><tr><th>الحالة</th><th>الحدود</th><th>الخلفية</th></tr></thead>
+        <tbody>
+          <tr><td>Default</td><td><code>1px solid Ink/300</code></td><td><code>Ink/0</code></td></tr>
+          <tr><td>Hover</td><td><code>1px solid Ink/500</code></td><td><code>Ink/0</code></td></tr>
+          <tr><td>Focus</td><td><code>1px solid Ink/900 + ring</code></td><td><code>Ink/0</code></td></tr>
+          <tr><td>Disabled</td><td><code>1px solid Ink/200</code></td><td><code>Ink/100</code></td></tr>
+          <tr><td>Error</td><td><code>1px solid Danger</code></td><td><code>Ink/0</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ========== CARDS ========== -->
+    <section id="cards">
+      <h2>البطاقات</h2>
+      <p>الوحدة الأساسية لعرض المحتوى. بسيطة، مستطيلة، بحدود خفيفة.</p>
+
+      <div class="showcase">
+        <div class="showcase-frame">
+          <div class="card">
+            <div class="card-tag">AI TOOL</div>
+            <h4>كاتب المحتوى الذكي</h4>
+            <p>مسوّدات متعددة الأساليب من فكرتك خلال ثوانٍ.</p>
+          </div>
+          <div class="card" style="background:var(--sand); border-color:transparent">
+            <div class="card-tag">FEATURED</div>
+            <h4>مولّد الصور الإعلانية</h4>
+            <p>صور بدقة احترافية تحاكي هوية علامتك التجارية.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CHAT ========== -->
+    <section id="chat">
+      <h2>واجهة المحادثة مع الذكاء الاصطناعي</h2>
+      <p>
+        هذه القلب النابض للمنصة. التصميم نظيف كصفحة ورقية، دون ثرثرة بصرية.
+        فقاعة المستخدم سوداء صلبة، فقاعة المساعد رمادية فاتحة — تبايُن واضح دون صخب.
+      </p>
+
+      <div class="chat-frame">
+        <div class="bubble bubble-user">اكتب لي رسالة تسويقية لإطلاق منتج جديد — مستحضر عناية بالبشرة فاخر.</div>
+        <div class="bubble bubble-ai">
+          تفضّل مسوّدة أولى بنبرة راقية هادئة:<br><br>
+          «بعد ثلاث سنوات من الدراسة، نُقدّم لكم الجوهر الذي تأخّرنا فيه عمداً. لا ضجيج، لا وعود. فقط نتائج تراها في المرآة.»<br><br>
+          أخبرني إذا أردت نبرة أكثر شبابيّة، أو نسخة مطوّلة للصفحة الرئيسية.
+        </div>
+      </div>
+
+      <h3>القواعد الصارمة</h3>
+      <table>
+        <thead><tr><th>العنصر</th><th>القاعدة</th></tr></thead>
+        <tbody>
+          <tr><td>فقاعة المستخدم</td><td>خلفية <code>Ink/900</code>، نص <code>Ink/0</code>، يسار (محاذاة آخر السطر)، حافة مدوّرة عدا الركن السفلي في اتجاه الرسالة</td></tr>
+          <tr><td>فقاعة المساعد</td><td>خلفية <code>Ink/100</code>، نص <code>Ink/700</code>، يمين، نفس نمط الحواف</td></tr>
+          <tr><td>حد أقصى للعرض</td><td>80٪ من عرض الحاوية</td></tr>
+          <tr><td>ارتفاع السطر</td><td>1.6 — أكبر من المعتاد للقراءة الهادئة</td></tr>
+          <tr><td>الفاصل بين الفقاعات</td><td>12px</td></tr>
+          <tr><td>نسخ الكود داخل الرد</td><td>خط Mono، خلفية <code>Ink/50</code>، حدود <code>Ink/200</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ========== IMAGERY ========== -->
+    <section id="imagery">
+      <h2>الصور والتصوير</h2>
+      <p class="lead">
+        نبتعد عن صور الـ stock المستهلكة (أشخاص يضحكون مع أجهزتهم). نميل إلى: لقطات تحريرية صادقة،
+        أدوات حقيقية، مكاتب فيها استخدام فعلي، تفاصيل يدوية.
+      </p>
+
+      <h3>المعايير</h3>
+      <table>
+        <thead><tr><th>المعيار</th><th>التوجيه</th></tr></thead>
+        <tbody>
+          <tr><td>الإضاءة</td><td>طبيعية، نهارية، ظلال خفيفة. لا فلاش قاسٍ.</td></tr>
+          <tr><td>لوحة الألوان</td><td>ترابية، مطفأة قليلاً، متسقة مع ألوان الهوية.</td></tr>
+          <tr><td>التأطير</td><td>يترك مساحة سلبية. الموضوع ليس في المنتصف دائماً.</td></tr>
+          <tr><td>الأشخاص</td><td>عاديون، منهمكون في عمل حقيقي، لا يبتسمون للكاميرا.</td></tr>
+          <tr><td>الرسوم</td><td>خطية بسيطة، مستوى تفصيل متوسط، لونان كحدّ أقصى.</td></tr>
+          <tr><td>المعالجة</td><td>خفض التشبع 10–15٪. عدم استخدام فلاتر فينتاج مبالغ بها.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>الأيقونات</h3>
+      <p>نستخدم مكتبة <code>Lucide</code> بسمك خطّ <code>1.5px</code> فقط، بحجم أساسي <code>20px</code>. الأيقونات دائماً بلون النص المحيط — لا ألوان خاصة.</p>
+    </section>
+
+    <!-- ========== DO / DONT ========== -->
+    <section id="do-dont">
+      <h2>افعل / لا تفعل — ملخص</h2>
+
+      <div class="do-dont-grid">
+        <div class="do-box">
+          <strong>افعل</strong>
+          <p style="margin:0 0 8px 0">اجعل الأبيض الكريمي هو الخلفية الافتراضية.</p>
+          <p style="margin:0 0 8px 0">استخدم عنواناً رئيسياً واحداً وزرّاً أساسياً واحداً لكل شاشة.</p>
+          <p style="margin:0 0 8px 0">اترك مساحات بيضاء أكثر مما تظنّه ضرورياً.</p>
+          <p style="margin:0 0 8px 0">اتبع مضاعفات الـ 4px بحذافيرها.</p>
+          <p style="margin:0">استخدم الأرقام الهندية «١٢٣» للأرقام التجميلية والشعار.</p>
+        </div>
+        <div class="dont-box">
+          <strong>لا تفعل</strong>
+          <p style="margin:0 0 8px 0">لا تستخدم الأسود النقي <code>#000</code> — يقسو على العين.</p>
+          <p style="margin:0 0 8px 0">لا تستخدم التدرجات اللونية (gradients) في أي مكون.</p>
+          <p style="margin:0 0 8px 0">لا تستخدم ظلالاً قوية <code>blur &gt; 20px</code>.</p>
+          <p style="margin:0 0 8px 0">لا تكتب عنواناً مزخرفاً بالذهبي أو التدرجات.</p>
+          <p style="margin:0">لا تضع emoji في الواجهة الرسمية (يجوز في المحادثات فقط).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TOKENS ========== -->
+    <section id="tokens">
+      <h2>رموز التصميم — Design Tokens</h2>
+      <p>انسخ هذا الملف مباشرةً إلى <code>:root</code> في مشروعك. كل القيم في مكان واحد، سهلة التعديل.</p>
+
+      <pre style="background:var(--ink-900); color:var(--ink-100); padding:var(--s-5); border-radius:var(--r-md); overflow-x:auto; font-family:var(--font-mono); font-size:13px; line-height:1.8; direction:ltr; text-align:left;"><code style="background:transparent; color:inherit; padding:0;">:root {
+  /* Neutrals */
+  --ink-0: #FFFFFF;
+  --ink-50: #FAFAF7;
+  --ink-100: #F4F3EE;
+  --ink-200: #E8E6DF;
+  --ink-300: #D4D1C7;
+  --ink-400: #A8A59B;
+  --ink-500: #6B6862;
+  --ink-600: #3D3B37;
+  --ink-700: #26251F;
+  --ink-900: #111110;
+
+  /* Pastel Accents */
+  --sand:       #E6D9C4;
+  --sage:       #C9D2C0;
+  --sky:        #C6D4DC;
+  --rose:       #E8C9C4;
+  --mustard:    #D9C789;
+  --plum:       #B8A5B0;
+  --terracotta: #C88F7A;
+
+  /* Semantic */
+  --success: #7A8C6B;
+  --warning: #C79A52;
+  --danger:  #B85A4A;
+
+  /* Fonts */
+  --font-ar:      "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-en:      "IBM Plex Serif", Georgia, serif;
+  --font-sans-en: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Spacing (4px scale) */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px;
+  --s-4: 16px; --s-5: 24px; --s-6: 32px;
+  --s-7: 48px; --s-8: 64px; --s-9: 96px;
+
+  /* Radius */
+  --r-sm: 4px;   --r-md: 8px;  --r-lg: 12px;
+  --r-xl: 20px;  --r-full: 999px;
+
+  /* Elevation */
+  --shadow-1: 0 1px 2px rgba(17,17,16,.04), 0 1px 3px rgba(17,17,16,.06);
+  --shadow-2: 0 4px 6px rgba(17,17,16,.04), 0 2px 4px rgba(17,17,16,.06);
+  --shadow-3: 0 10px 20px rgba(17,17,16,.06), 0 3px 6px rgba(17,17,16,.08);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-quick: 200ms;
+  --dur-standard: 300ms;
+  --dur-smooth: 500ms;
+}
+
+html[dir="rtl"] body {
+  font-family: var(--font-ar);
+}</code></pre>
+
+      <h3>أسماء الخطوط في CSS</h3>
+      <pre style="background:var(--ink-900); color:var(--ink-100); padding:var(--s-5); border-radius:var(--r-md); overflow-x:auto; font-family:var(--font-mono); font-size:13px; line-height:1.8; direction:ltr; text-align:left;"><code style="background:transparent; color:inherit; padding:0;">@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');</code></pre>
+    </section>
+
+    <hr>
+
+    <!-- ========== FOOTER ========== -->
+    <footer style="margin-top:var(--s-7); padding-top:var(--s-6); border-top:1px solid var(--ink-200); font-size:13px; color:var(--ink-500);">
+      <p>
+        هذا الدليل وثيقة حيّة. كل تحديث يُوثّق ويُعتمد من فريق العلامة قبل النشر.
+        الهوية ملهمة من أسلوب «ثمانية» التحريري — الأصالة، البساطة، الحداثة.
+      </p>
+      <p style="margin-top:var(--s-3)">
+        <strong>الإصدار ١٫٠</strong> · آخر تحديث: ٢٠٢٦ · مرجع معتمد للفريق
+      </p>
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>
