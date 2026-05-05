@@ -1,7 +1,5 @@
 {
   "rewrites": [
-    { "source": "/r/:code", "destination": "/index.html" }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+    { "source": "/r/:code", "destination": "/" }
+  ]
 }
