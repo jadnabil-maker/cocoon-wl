@@ -237,7 +237,7 @@ function Success({ data, count, total, onReset }) {
   const [copied, setCopied] = useState(false);
   const refCode = data.referralCode;
   const refLink = `trysinna.ai/r/${refCode}`;
-  const position = data.position || (count + 1);
+  const position = data.position ? data.position + COUNT_BOOST : (count + 1);
   const animatedPos = useCountUp(position, 1100);
   const ahead = Math.max(0, position - 1);
 
