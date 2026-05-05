@@ -411,11 +411,7 @@ function App() {
         </main>
         </div>{/* /.cream-area */}
 
-        {showStripes && (
-          <div className="stripes">
-            <div className="band b1"/><div className="band b2"/><div className="band b3"/><div className="band b4"/><div className="band b5"/>
-          </div>
-        )}
+        {showStripes && <div className="stripes"/>}
 
         <div className="black-area"/>
       </div>
@@ -428,7 +424,7 @@ function App() {
           value={total} onChange={(v) => setTweak("totalSeats", v)}/>
 
         <window.TweakSection label="Sections"/>
-        <window.TweakToggle label="Show warm stripes" value={showStripes}
+        <window.TweakToggle label="Show fade transition" value={showStripes}
           onChange={(v) => setTweak("showStripes", v)}/>
         <window.TweakToggle label="Show stat meta-row" value={showMeta}
           onChange={(v) => setTweak("showMeta", v)}/>
