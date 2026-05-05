@@ -368,13 +368,13 @@ function App() {
           <div className="eyebrow">Private Beta · Q3 2026</div>
           <h1 className="headline">
             {stage === "success"
-              ? <>Welcome to <em>Cocoon AI</em>.</>
+              ? <>Welcome to <em>Sinna</em>.</>
               : <>A <em>premium AI studio</em>,<br/>opening doors quietly.</>
             }
           </h1>
           {stage !== "success" && (
             <p className="sub">
-              Cocoon AI is a premium Arabic-first AI workspace built for founders, teams,
+              Sinna is a premium Arabic-first AI workspace built for founders, teams,
               and creators who take their work seriously: research that doesn't bluff,
               drafts that respect your voice.
             </p>
