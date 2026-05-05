@@ -326,12 +326,14 @@ function App() {
       .catch((e) => console.error("[App] get_waitlist_count network error:", e));
   }, []);
 
-  const total = Number(tweaks.totalSeats) || 4400;
+  const total = Number(tweaks.totalSeats) || 1500;
   const tweakCount = Math.min(total, Number(tweaks.currentCount) || 0);
   const count = realCount !== null
     ? Math.min(total, realCount + COUNT_BOOST)
     : tweakCount;
+  const seatsLeft = Math.max(0, total - count);
   const animCount = useCountUp(count, 1500);
+  const animSeatsLeft = useCountUp(seatsLeft, 1500);
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
 
   const onSubmit = (d) => {
@@ -359,7 +361,7 @@ function App() {
           <div className="status-pill">
             <span className="dot"/>
             <GitHubIcon/>
-            <span>{fmt(animCount)} on the waiting list</span>
+            <span>{fmt(animSeatsLeft)} seats left of {fmt(total)}</span>
             <ChevDown/>
           </div>
         </header>
