@@ -364,6 +364,12 @@ function App() {
             <span>{fmt(animSeatsLeft)} seats left of {fmt(total)}</span>
             <ChevDown/>
           </div>
+          <img
+            className="brand-sphere"
+            src="https://i.ibb.co/rKWbSv0W/Name-options-1-4.png"
+            alt=""
+            aria-hidden="true"
+          />
         </header>
 
         <main className="stage">

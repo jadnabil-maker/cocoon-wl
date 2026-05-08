@@ -145,6 +145,18 @@
     opacity: .35;
   }
 
+  /* Sphere logo at top-right of chrome (desktop only) */
+  .brand-sphere {
+    justify-self: end;
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    opacity: 0.85;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   /* Light text overrides on the warm dark cream-area (Desert Sand palette) */
   .cream-area .brand { color: #ebd5c2; }
   .cream-area .headline { color: #ebd5c2; }
@@ -250,11 +262,12 @@
   .headline {
     font-family: var(--font-sans);
     font-weight: 700;
-    font-size: clamp(36px, 4.6vw, 60px);
-    line-height: 1.05;
-    letter-spacing: -1.5px;
+    font-size: clamp(36px, 4vw, 54px);
+    line-height: 1.06;
+    letter-spacing: -1.2px;
     color: var(--ink);
-    margin: 0 0 16px 0;
+    max-width: 16ch;
+    margin: 0 auto 18px;
     overflow-wrap: break-word;
   }
   .headline em {
@@ -265,10 +278,10 @@
 
   .sub {
     font-family: var(--font-sans);
-    font-size: 17px;
-    line-height: 1.55;
+    font-size: 16px;
+    line-height: 1.6;
     color: var(--muted);
-    max-width: 56ch;
+    max-width: 48ch;
     margin: 0 auto 36px;
   }
 
@@ -613,6 +626,7 @@
   @media (max-width: 720px) {
     .chrome { grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px 18px; }
     .status-pill { display: none; }
+    .brand-sphere { display: none; }
     .panel-grid { grid-template-columns: 1fr; }
     .stage { padding: 24px 16px 60px; }
     .stripes-side { width: 14%; height: 38%; }
