@@ -358,7 +358,7 @@ function App() {
           <div className="brand">
             <img
               className="brand-logo"
-              src="https://i.ibb.co/Y7MStLBn/5aafe9ac-4f10-4a15-84b0-e417fd27c72e.png"
+              src="https://i.ibb.co/3mH1mvyy/5aafe9ac-4f10-4a15-84b0-e434417fd27c72e.png"
               alt="Sinna"
             />
           </div>
