@@ -371,14 +371,16 @@ function App() {
           <h1 className="headline">
             {stage === "success"
               ? <>Welcome to <em>Sinna</em>.</>
-              : <>A <em>premium AI studio</em>,<br/>opening doors quietly.</>
+              : <>The <em>MENA Region’s Premium AI Workspace</em>,<br/>Opening doors quietly.</>
             }
           </h1>
           {stage !== "success" && (
             <p className="sub">
-              Sinna is a premium Arabic-first AI workspace built for founders, teams,
-              and creators who take their work seriously: research that doesn't bluff,
-              drafts that respect your voice.
+              The MENA region’s first premium AI workspace built for founders, creators,
+              and teams who value craft over convenience. SINNA delivers precision-engineered
+              intelligence for serious work: sharpened workflows, intentional outputs, and
+              tools designed to amplify ambition, not replace it. Intelligence you can trust.
+              Craftsmanship you can feel.
             </p>
           )}
 
