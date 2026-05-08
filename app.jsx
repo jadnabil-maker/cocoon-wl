@@ -415,7 +415,13 @@ function App() {
 
         {showStripes && <div className="stripes"/>}
 
-        <div className="black-area"/>
+        <div className="black-area">
+          <img
+            className="bottom-logo"
+            src="https://i.ibb.co/rKWbSv0W/Name-options-1-4.png"
+            alt="Sinna"
+          />
+        </div>
       </div>
 
       <window.TweaksPanel title="Tweaks">

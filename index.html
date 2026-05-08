@@ -128,6 +128,11 @@
     z-index: 1;
   }
 
+  /* Bottom logo (mobile only) */
+  .bottom-logo {
+    display: none;
+  }
+
   /* film grain — adapted for the warm dark background */
   .cream-area::before {
     content: "";
@@ -615,6 +620,22 @@
     .pos-divider { width: 100%; height: 1px; }
     .form-head { gap: 12px; }
     .form-head .crumbs { text-align: right; }
+    .black-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 60px;
+      min-height: 280px;
+    }
+    .bottom-logo {
+      display: block;
+      width: clamp(180px, 60vw, 260px);
+      height: auto;
+      opacity: 0.85;
+      pointer-events: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
   }
   @media (max-width: 480px) {
     .meta-row { gap: 12px; }
