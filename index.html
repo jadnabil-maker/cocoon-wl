@@ -76,7 +76,18 @@
   /* CREAM AREA — top section with chrome + stage; grows to fill what the stage needs */
   .cream-area {
     position: relative;
-    background: var(--paper);
+    background:
+      radial-gradient(ellipse 90% 70% at 50% 55%,
+        rgba(120, 60, 35, 0.55) 0%,
+        rgba(80, 40, 22, 0.30) 40%,
+        rgba(0, 0, 0, 0) 75%),
+      linear-gradient(180deg,
+        #2A1F18 0%,
+        #3A2A1C 18%,
+        #4A2E1A 38%,
+        #582F18 55%,
+        #4A2818 75%,
+        #2D1A10 100%);
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
@@ -84,32 +95,27 @@
     overflow: visible;
   }
 
-  /* FADE TRANSITION — atmospheric perceptual gradient (oklab interpolation) */
+  /* FADE TRANSITION — continues from cream-area's warm dark bottom into black */
   .stripes {
     position: relative;
     width: 100%;
     height: 280px;
     background:
       linear-gradient(in oklab to bottom,
-        var(--paper) 0%,
-        #E2DAC3 10%,
-        #CFC5A8 22%,
-        #A89B7E 36%,
-        #756753 52%,
-        #423829 68%,
-        #221C14 82%,
-        #110E0B 92%,
+        #2D1A10 0%,
+        #1F120A 35%,
+        #150C07 65%,
         #0B0908 100%);
     z-index: 1;
     flex-shrink: 0;
   }
-  /* extended warm haze at the top edge — softens the boundary further */
+  /* haze at top edge to blur seam between cream-area and stripes */
   .stripes::before {
     content: "";
     position: absolute;
     inset: -1px 0 auto 0;
     height: 60px;
-    background: linear-gradient(180deg, var(--paper) 0%, transparent 100%);
+    background: linear-gradient(180deg, #2D1A10 0%, transparent 100%);
     pointer-events: none;
   }
 
@@ -122,15 +128,23 @@
     z-index: 1;
   }
 
-  /* paper grain — only on cream area */
+  /* film grain — adapted for the warm dark background */
   .cream-area::before {
     content: "";
     position: absolute; inset: 0; z-index: 1;
     pointer-events: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    mix-blend-mode: multiply;
-    opacity: .55;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.10 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+    opacity: .35;
   }
+
+  /* Light text overrides on the warm dark cream-area */
+  .cream-area .brand { color: #F0E5CF; }
+  .cream-area .headline { color: #F1E7D0; }
+  .cream-area .headline em { color: #F1E7D0; }
+  .cream-area .sub { color: #C5B89B; }
+  .cream-area .eyebrow { color: #B8A982; }
+  .cream-area .eyebrow::before, .cream-area .eyebrow::after { background: rgba(241, 231, 208, 0.22); }
 
   /* -------- TOP CHROME -------- */
   .chrome {
@@ -156,8 +170,9 @@
     align-items: center;
     gap: 10px;
     padding: 9px 16px 9px 14px;
-    background: var(--ink);
+    background: rgba(15, 10, 8, 0.85);
     color: #EFE9DC;
+    border: 1px solid rgba(241, 231, 208, 0.12);
     border-radius: 999px;
     font-family: var(--font-sans);
     font-size: 13px;
