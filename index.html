@@ -626,15 +626,17 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding: 0 20px 16px;
+      padding: 0 0 16px;
       min-height: 80px;
+      overflow: hidden;
     }
     .bottom-logo {
       display: block;
-      width: clamp(200px, 55vw, 260px);
+      width: 100%;
+      max-width: none;
       height: auto;
-      margin-top: -120px;
-      opacity: 0.85;
+      margin-top: -90px;
+      opacity: 0.9;
       pointer-events: none;
       -webkit-user-select: none;
       user-select: none;
