@@ -640,9 +640,24 @@
     /* Tighter mobile typography to match the reference layout */
     .brand { font-size: 16px; }
     .eyebrow { font-size: 10px; letter-spacing: 2px; }
-    .headline { font-size: 28px; line-height: 1.15; letter-spacing: -0.6px; }
-    .sub { font-size: 14px; line-height: 1.55; }
-    .stage { padding-top: 16px; }
+    .headline {
+      font-size: 28px;
+      line-height: 1.15;
+      letter-spacing: -0.6px;
+      text-align: center;
+      max-width: 18ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .sub {
+      font-size: 14px;
+      line-height: 1.55;
+      text-align: center;
+      max-width: 36ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .stage { padding-top: 16px; padding-left: 20px; padding-right: 20px; }
     .tile { padding: 16px 18px 18px; }
     .tile-title { font-size: 16px; }
     .tile-desc { font-size: 13px; }
