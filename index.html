@@ -76,10 +76,10 @@
   /* CREAM AREA — top section with chrome + stage; grows to fill what the stage needs */
   .cream-area {
     position: relative;
-    /* Two-color gradient: Stone Brown → Rich Mahogany */
-    background: linear-gradient(in oklab to bottom,
-      #685d4e 0%,
-      #431709 100%);
+    /* hsla(27,9%,42%) → hsla(8,68%,17%) — taupe to deep mahogany */
+    background: linear-gradient(180deg,
+      hsla(27, 9%, 42%, 1) 15%,
+      hsla(8, 68%, 17%, 1) 100%);
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
@@ -87,13 +87,13 @@
     overflow: visible;
   }
 
-  /* FADE TRANSITION — Rich Mahogany → Carbon Black */
+  /* FADE TRANSITION — Deep Mahogany → Carbon Black */
   .stripes {
     position: relative;
     width: 100%;
     height: 280px;
-    background: linear-gradient(in oklab to bottom,
-      #431709 0%,
+    background: linear-gradient(180deg,
+      hsla(8, 68%, 17%, 1) 0%,
       #1c1c1e 100%);
     z-index: 1;
     flex-shrink: 0;
@@ -103,7 +103,7 @@
     position: absolute;
     inset: -1px 0 auto 0;
     height: 60px;
-    background: linear-gradient(180deg, #431709 0%, transparent 100%);
+    background: linear-gradient(180deg, hsla(8, 68%, 17%, 1) 0%, transparent 100%);
     pointer-events: none;
   }
 
