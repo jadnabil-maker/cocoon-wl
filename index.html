@@ -77,17 +77,19 @@
   .cream-area {
     position: relative;
     background:
-      radial-gradient(ellipse 90% 70% at 50% 55%,
-        rgba(120, 60, 35, 0.55) 0%,
-        rgba(80, 40, 22, 0.30) 40%,
-        rgba(0, 0, 0, 0) 75%),
-      linear-gradient(180deg,
-        #2A1F18 0%,
-        #3A2A1C 18%,
-        #4A2E1A 38%,
-        #582F18 55%,
-        #4A2818 75%,
-        #2D1A10 100%);
+      radial-gradient(ellipse 110% 85% at 50% 70%,
+        rgba(180, 88, 38, 0.55) 0%,
+        rgba(140, 65, 28, 0.35) 28%,
+        rgba(85, 38, 18, 0.18) 55%,
+        rgba(0, 0, 0, 0) 82%),
+      linear-gradient(in oklab to bottom,
+        #3D3025 0%,
+        #483428 18%,
+        #5A3826 38%,
+        #6A3622 55%,
+        #5A2E1B 72%,
+        #3A1F14 90%,
+        #1F120B 100%);
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
@@ -102,9 +104,9 @@
     height: 280px;
     background:
       linear-gradient(in oklab to bottom,
-        #2D1A10 0%,
-        #1F120A 35%,
-        #150C07 65%,
+        #1F120B 0%,
+        #150C07 40%,
+        #0F0A07 70%,
         #0B0908 100%);
     z-index: 1;
     flex-shrink: 0;
@@ -115,7 +117,7 @@
     position: absolute;
     inset: -1px 0 auto 0;
     height: 60px;
-    background: linear-gradient(180deg, #2D1A10 0%, transparent 100%);
+    background: linear-gradient(180deg, #1F120B 0%, transparent 100%);
     pointer-events: none;
   }
 
