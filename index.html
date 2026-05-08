@@ -265,13 +265,14 @@
   .headline {
     font-family: var(--font-sans);
     font-weight: 700;
-    font-size: clamp(34px, 3.6vw, 50px);
-    line-height: 1.08;
-    letter-spacing: -1.1px;
+    font-size: clamp(26px, 3.2vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -1px;
     color: var(--ink);
-    max-width: 28ch;
+    max-width: none;
     margin: 0 auto 18px;
-    overflow-wrap: break-word;
+    overflow-wrap: normal;
+    white-space: normal;
   }
   .headline em {
     font-family: var(--font-serif);
@@ -664,11 +665,12 @@
     .brand { font-size: 14px; }
     .eyebrow { font-size: 10px; letter-spacing: 2px; }
     .headline {
-      font-size: 22px;
-      line-height: 1.18;
+      font-size: 17px;
+      line-height: 1.22;
       letter-spacing: -0.4px;
       text-align: left;
-      margin: 8px 4% 10px 4%;
+      margin: 8px 14px 10px;
+      white-space: normal;
     }
     .sub {
       font-size: 12.5px;
