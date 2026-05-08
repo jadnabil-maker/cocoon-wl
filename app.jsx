@@ -371,7 +371,7 @@ function App() {
           <h1 className="headline">
             {stage === "success"
               ? <>Welcome to <em>Sinna</em>.</>
-              : <>The <em>MENA Region’s<br/>Premium AI Workspace</em>,<br/>Opening doors quietly.</>
+              : <>The <em>MENA Region’s Premium AI Workspace</em>, Opening doors quietly.</>
             }
           </h1>
           {stage !== "success" && (
