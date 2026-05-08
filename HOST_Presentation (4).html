@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOST App Architecture & Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: #000;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HOST logo style — tall condensed */
+  .host-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: -0.02em;
+    transform: scaleY(1.6);
+    transform-origin: center;
+    display: inline-block;
+    font-weight: 400;
+  }
+
+  /* Cover section */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-bottom: 0.5px solid #222;
+  }
+  .cover .host-logo {
+    font-size: 180px;
+    color: #fff;
+    line-height: 0.85;
+  }
+  .cover .tagline {
+    font-size: 13px;
+    letter-spacing: 0.4em;
+    color: #fff;
+    margin-top: 60px;
+    font-weight: 400;
+  }
+
+  /* Section base */
+  section {
+    padding: 100px 60px;
+    border-bottom: 0.5px solid #1a1a1a;
+    position: relative;
+  }
+  .section-header {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: #888;
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+  .section-title {
+    font-size: 42px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .section-desc {
+    font-size: 16px;
+    color: #aaa;
+    max-width: 700px;
+    line-height: 1.7;
+  }
+
+  /* Top-right HOST badge in sections */
+  .corner-logo {
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: #fff;
+    transform: scaleY(1.6);
+    transform-origin: top right;
+    letter-spacing: -0.02em;
+  }
+
+  /* Diagram container */
+  .diagram-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #0a0a0a;
+    border: 0.5px solid #222;
+    border-radius: 16px;
+    padding: 50px 30px;
+  }
+
+  /* SVG color helpers */
+  svg text { font-family: 'Inter', sans-serif; }
+  .t  { font-size: 14px; fill: #fff; font-weight: 400; }
+  .ts { font-size: 12px; fill: #aaa; font-weight: 300; }
+  .th { font-size: 14px; fill: #fff; font-weight: 500; }
+  .arr { stroke: #555; stroke-width: 1; fill: none; }
+  .leader { stroke: #444; stroke-width: 0.5; stroke-dasharray: 3 3; fill: none; }
+
+  /* Color ramps for diagrams */
+  .c-pink rect, .c-pink circle { fill: #2a0f1c; stroke: #993556; stroke-width: 0.5; }
+  .c-pink .th, .c-pink .ts, .c-pink text { fill: #ED93B1; }
+
+  .c-purple rect, .c-purple circle { fill: #1a1830; stroke: #7F77DD; stroke-width: 0.5; }
+  .c-purple text { fill: #AFA9EC; }
+
+  .c-teal rect, .c-teal circle { fill: #0d2620; stroke: #1D9E75; stroke-width: 0.5; }
+  .c-teal text { fill: #5DCAA5; }
+
+  .c-amber rect, .c-amber circle { fill: #2a1d08; stroke: #BA7517; stroke-width: 0.5; }
+  .c-amber text { fill: #EF9F27; }
+
+  .c-coral rect, .c-coral circle { fill: #2a1208; stroke: #D85A30; stroke-width: 0.5; }
+  .c-coral text { fill: #F0997B; }
+
+  .c-gray rect, .c-gray circle { fill: #1a1a1a; stroke: #444; stroke-width: 0.5; }
+  .c-gray text { fill: #ccc; }
+
+  .c-blue rect, .c-blue circle { fill: #0a1a2a; stroke: #185FA5; stroke-width: 0.5; }
+  .c-blue text { fill: #85B7EB; }
+
+  /* Mockup grid */
+  .mockup-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    justify-items: center;
+  }
+
+  /* Phone frame */
+  .phone {
+    width: 320px;
+    background: #0a0a0a;
+    border-radius: 38px;
+    padding: 14px 10px 10px;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 0 0 1px #111, 0 30px 80px rgba(212, 83, 126, 0.08);
+    position: relative;
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 6px;
+    background: #000;
+    border-radius: 3px;
+    z-index: 10;
+  }
+  .phone-screen {
+    background: #000;
+    border-radius: 28px;
+    overflow: hidden;
+    color: #fff;
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-label {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #888;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px 10px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 18px 14px;
+  }
+  .top-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    transform: scaleY(1.5);
+    transform-origin: center;
+    letter-spacing: -0.02em;
+  }
+  .top-icon {
+    font-size: 17px;
+    color: #888;
+  }
+
+  /* Stories ribbon */
+  .stories {
+    display: flex;
+    gap: 12px;
+    padding: 8px 16px 14px;
+    overflow: hidden;
+  }
+  .story-item { text-align: center; flex-shrink: 0; }
+  .story-circle {
+    width: 56px; height: 56px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 14px; font-weight: 500;
+  }
+  .story-add {
+    background: #1a1a1a;
+    border: 1.5px dashed #555;
+    color: #888;
+    font-size: 22px;
+    font-weight: 300;
+  }
+  .story-name { font-size: 10px; color: #ccc; margin-top: 6px; }
+
+  .section-label {
+    padding: 6px 18px;
+    font-size: 10px;
+    color: #666;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+  }
+
+  /* Event card */
+  .event-card {
+    margin: 6px 16px 14px;
+    background: #0f0f0f;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 0.5px solid #1f1f1f;
+  }
+  .event-cover {
+    height: 110px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .event-cover.jazz { background: linear-gradient(135deg, #993556 0%, #4B1528 100%); }
+  .event-cover.padel { background: linear-gradient(135deg, #1D9E75 0%, #04342C 100%); }
+  .event-cover.food { background: linear-gradient(135deg, #BA7517 0%, #412402 100%); }
+  .event-tag {
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    font-size: 9px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    align-self: flex-start;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+  .event-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .event-footer {
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .avatars { display: flex; }
+  .avatar {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid #0f0f0f;
+    margin-left: -8px;
+  }
+  .avatar:first-child { margin-left: 0; }
+  .going-count { font-size: 11px; color: #aaa; margin-left: 8px; }
+  .rsvp-btn {
+    background: #D4537E;
+    color: #fff;
+    border: none;
+    padding: 7px 18px;
+    border-radius: 16px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* Activity card */
+  .activity-card {
+    margin: 0 16px 14px;
+    background: #0f0f0f;
+    border-radius: 14px;
+    padding: 14px;
+    border: 0.5px solid #1f1f1f;
+  }
+  .activity-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .activity-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .activity-text { font-size: 12px; color: #aaa; }
+  .activity-text strong { color: #fff; font-weight: 500; }
+  .activity-event { font-size: 13px; font-weight: 500; color: #fff; margin-top: 4px; }
+  .activity-meta { font-size: 10px; color: #666; margin-top: 3px; }
+
+  /* Bottom nav */
+  .bottom-nav {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0 18px;
+    border-top: 0.5px solid #1a1a1a;
+    background: #050505;
+  }
+  .nav-item {
+    text-align: center;
+    color: #555;
+    cursor: pointer;
+  }
+  .nav-item.active { color: #fff; }
+  .nav-icon { font-size: 20px; }
+  .nav-label { font-size: 9px; margin-top: 4px; }
+  .nav-create {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: #D4537E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .nav-create i { color: #fff; font-size: 20px; }
+
+  /* Form/create event mockup */
+  .form-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px 14px;
+    font-size: 13px;
+  }
+  .form-bar .back { color: #888; font-size: 16px; }
+  .form-bar .title { font-weight: 500; }
+  .form-bar .next { color: #D4537E; font-weight: 500; cursor: pointer; }
+
+  .form-body { padding: 0 18px 18px; }
+  .upload-area {
+    height: 130px;
+    background: #1a1a1a;
+    border: 1.5px dashed #444;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+  .upload-area i { font-size: 26px; }
+  .upload-area span { font-size: 11px; }
+
+  .field { margin-bottom: 14px; }
+  .field-label {
+    font-size: 10px;
+    color: #888;
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+  .field-input {
+    background: #0f0f0f;
+    border: 0.5px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #fff;
+  }
+  .field-input.icon-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .field-input.icon-input i { font-size: 15px; color: #D4537E; }
+  .field-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .field-row .field { flex: 1; margin-bottom: 0; }
+
+  .toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-top: 0.5px solid #1a1a1a;
+    font-size: 13px;
+  }
+  .toggle {
+    width: 36px; height: 20px;
+    border-radius: 10px;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .toggle.on { background: #D4537E; }
+  .toggle.off { background: #2a2a2a; }
+  .toggle-knob {
+    width: 16px; height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    transition: all 0.2s;
+  }
+  .toggle.on .toggle-knob { right: 2px; }
+  .toggle.off .toggle-knob { left: 2px; background: #888; }
+
+  /* Heat map screen */
+  .heatmap-bg {
+    flex: 1;
+    background:
+      radial-gradient(circle at 30% 35%, rgba(212,83,126,0.5) 0%, transparent 18%),
+      radial-gradient(circle at 28% 33%, rgba(212,83,126,0.8) 0%, transparent 8%),
+      radial-gradient(circle at 65% 25%, rgba(212,83,126,0.4) 0%, transparent 14%),
+      radial-gradient(circle at 35% 60%, rgba(186,117,23,0.5) 0%, transparent 16%),
+      radial-gradient(circle at 70% 65%, rgba(29,158,117,0.5) 0%, transparent 14%),
+      radial-gradient(circle at 50% 80%, rgba(212,83,126,0.3) 0%, transparent 12%),
+      #0a0a0a;
+    position: relative;
+    overflow: hidden;
+  }
+  .heat-pin {
+    position: absolute;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    font-size: 9px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+    border: 0.5px solid rgba(255,255,255,0.1);
+    white-space: nowrap;
+  }
+  .city-tag {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.7);
+    border: 0.5px solid #333;
+    padding: 6px 14px;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+  }
+  .filter-pills {
+    position: absolute;
+    bottom: 80px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    gap: 6px;
+    overflow: hidden;
+  }
+  .filter-pill {
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 10px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 0.5px solid #333;
+    white-space: nowrap;
+  }
+  .filter-pill.active { background: #D4537E; border-color: #D4537E; }
+
+  /* Profile screen */
+  .profile-header {
+    text-align: center;
+    padding: 20px 18px 24px;
+  }
+  .profile-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #D4537E, #4B1528);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: #fff;
+    margin: 0 auto 14px;
+  }
+  .profile-name {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .profile-bio {
+    font-size: 11px;
+    color: #888;
+  }
+  .profile-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 16px 0;
+    margin: 0 18px;
+    border-top: 0.5px solid #1a1a1a;
+    border-bottom: 0.5px solid #1a1a1a;
+  }
+  .stat { text-align: center; }
+  .stat-num { font-size: 17px; font-weight: 500; }
+  .stat-label { font-size: 10px; color: #888; margin-top: 2px; }
+
+  .host-score {
+    margin: 18px;
+    background: linear-gradient(135deg, #1a0a14, #0a0a0a);
+    border: 0.5px solid #2a0f1c;
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .score-num {
+    font-size: 28px;
+    font-weight: 500;
+    color: #D4537E;
+  }
+  .score-info { flex: 1; }
+  .score-label { font-size: 10px; color: #888; letter-spacing: 0.1em; }
+  .score-tier { font-size: 13px; font-weight: 500; margin-top: 2px; }
+  .score-meta { font-size: 10px; color: #666; margin-top: 4px; }
+  .score-badge {
+    background: #D4537E;
+    color: #fff;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+
+  .tab-row {
+    display: flex;
+    gap: 8px;
+    padding: 0 18px 12px;
+  }
+  .tab-pill {
+    background: #1a1a1a;
+    color: #888;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  .tab-pill.active { background: #fff; color: #000; }
+
+  .small-event {
+    margin: 0 18px 10px;
+    background: #0f0f0f;
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 0.5px solid #1f1f1f;
+  }
+  .small-event-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .small-event-icon.jazz { background: #993556; }
+  .small-event-icon.padel { background: #1D9E75; }
+  .small-event-icon.food { background: #BA7517; }
+  .small-event-info { flex: 1; }
+  .small-event-title { font-size: 12px; font-weight: 500; }
+  .small-event-meta { font-size: 10px; color: #888; margin-top: 2px; }
+
+  /* Circles screen */
+  .circle-search {
+    margin: 8px 16px 14px;
+    background: #0f0f0f;
+    border: 0.5px solid #1f1f1f;
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    font-size: 12px;
+  }
+  .circle-list-item {
+    margin: 0 16px 8px;
+    background: #0f0f0f;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 0.5px solid #1f1f1f;
+  }
+  .circle-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+  }
+  .circle-icon.padel { background: linear-gradient(135deg, #1D9E75, #0F6E56); }
+  .circle-icon.food  { background: linear-gradient(135deg, #BA7517, #854F0B); }
+  .circle-icon.dewa  { background: linear-gradient(135deg, #993556, #4B1528); }
+  .circle-info { flex: 1; }
+  .circle-name { font-size: 13px; font-weight: 500; }
+  .circle-meta { font-size: 10px; color: #888; margin-top: 2px; }
+  .circle-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #D4537E;
+  }
+  .verified-mark {
+    color: #5DCAA5;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* Feature cards section */
+  .feature-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .feature-card {
+    background: #0a0a0a;
+    border: 0.5px solid #1f1f1f;
+    border-radius: 16px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .feature-card:hover {
+    border-color: #993556;
+  }
+  .feature-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: #1a0a14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #D4537E;
+    margin-bottom: 18px;
+    border: 0.5px solid #2a0f1c;
+  }
+  .feature-icon i { font-size: 22px; }
+  .feature-title {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .feature-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.6;
+  }
+
+  /* Pages list */
+  .pages-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .page-group {
+    background: #0a0a0a;
+    border: 0.5px solid #1f1f1f;
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .page-group-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #D4537E;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+  .page-group-count {
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 16px;
+  }
+  .page-list {
+    list-style: none;
+  }
+  .page-list li {
+    padding: 8px 0;
+    font-size: 13px;
+    color: #ccc;
+    border-bottom: 0.5px solid #151515;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .page-list li:last-child { border-bottom: none; }
+  .page-list li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: #555;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Footer */
+  .end {
+    text-align: center;
+    padding: 120px 40px;
+    border-bottom: none;
+  }
+  .end .host-logo {
+    font-size: 80px;
+    color: #D4537E;
+    line-height: 0.85;
+  }
+  .end-tag {
+    margin-top: 50px;
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 0.4em;
+  }
+
+  @media (max-width: 768px) {
+    section { padding: 60px 24px; }
+    .corner-logo { right: 24px; top: 24px; font-size: 22px; }
+    .cover .host-logo { font-size: 100px; }
+    .section-title { font-size: 30px; }
+    .diagram-wrap { padding: 24px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="host-logo">HOST</div>
+  <div class="tagline">EVERYWHERE, ANYWHERE.</div>
+</div>
+
+<!-- ============ INTRO ============ -->
+<section>
+  <div class="corner-logo">HOST</div>
+  <div class="section-header">
+    <div class="section-eyebrow">THE PRODUCT</div>
+    <h2 class="section-title">A social media app for events.</h2>
+    <p class="section-desc">
+      Host is a sleek, elegant social media app designed to simplify and elevate
+      how people plan, manage, and attend events. Whether you're throwing a party,
+      organizing a padel match, or attending a brand experience in a new city,
+      HOST connects people through shared experiences and real-time event engagement.
+    </p>
+  </div>
+</section>
+
+<!-- ============ CORE FEATURES ============ -->
+<section>
+  <div class="corner-logo">HOST</div>
+  <div class="section-header">
+    <div class="section-eyebrow">CORE FEATURES</div>
+    <h2 class="section-title">What makes HOST different.</h2>
+    <p class="section-desc">
+      Twelve flagship features that power the entire platform, from registration
+      and live event radar to AI-driven concierge experiences.
+    </p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-user-plus"></i></div>
+      <div class="feature-title">Registration & login</div>
+      <div class="feature-desc">Phone and email verification, two-step codes, country selection, forgot password recovery.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-id-badge-2"></i></div>
+      <div class="feature-title">User profiles</div>
+      <div class="feature-desc">Personalized profiles with bio, photo, hosted history, attended events, social circles.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-calendar-plus"></i></div>
+      <div class="feature-title">Event creation</div>
+      <div class="feature-desc">Title, date, cover image, Google Maps integration, virtual links, RSVP rules, dress code.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-users"></i></div>
+      <div class="feature-title">Guestlist system</div>
+      <div class="feature-desc">Custom guestlist folders like Family, Padel Squad, or Work that get attached to events instead of inviting people one-by-one.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-bell"></i></div>
+      <div class="feature-title">Smart notifications</div>
+      <div class="feature-desc">RSVP alerts, ETA from host, geofencing nudges, engagement pings on guestlist reactions.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-message-circle"></i></div>
+      <div class="feature-title">Circles</div>
+      <div class="feature-desc">Group chats, private events, polls, and verified hubs. Think Reddit meets WhatsApp for your scene.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-map-2"></i></div>
+      <div class="feature-title">Explore page</div>
+      <div class="feature-desc">Land in any city and instantly see public events nearby, filtered by category and trending status.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-flame"></i></div>
+      <div class="feature-title">Social heat map</div>
+      <div class="feature-desc">Live event radar showing where your city is heating up, based on check-ins, reactions, and foot traffic.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-photo"></i></div>
+      <div class="feature-title">Memories</div>
+      <div class="feature-desc">Collaborative threads, memory maps, year-in-review recaps, venue loyalty badges.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-star"></i></div>
+      <div class="feature-title">Host score & verification</div>
+      <div class="feature-desc">Reputation system based on guest feedback, completion rate, and engagement. Top hosts unlock Super Host status.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-sparkles"></i></div>
+      <div class="feature-title">AI concierge</div>
+      <div class="feature-desc">Generate events, suggest optimal times, send themed reminders.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-shield-check"></i></div>
+      <div class="feature-title">Emergency mode</div>
+      <div class="feature-desc">Safety-first reporting that alerts the host, admins, and trusted contacts when needed.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APP MAP ============ -->
+<section>
+  <div class="corner-logo">HOST</div>
+  <div class="section-header">
+    <div class="section-eyebrow">ARCHITECTURE</div>
+    <h2 class="section-title">The complete app map.</h2>
+    <p class="section-desc">
+      Every screen organized by section. Five main tabs anchor the bottom navigation,
+      and cross-cutting screens stay reachable from multiple entry points.
+    </p>
+  </div>
+  <div class="diagram-wrap">
+    <svg width="100%" viewBox="0 0 680 1180" xmlns="http://www.w3.org/2000/svg" role="img">
+      <title>HOST app architecture map</title>
+      <defs>
+        <marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <g class="c-gray"><rect x="260" y="20" width="160" height="50" rx="8"/></g>
+      <text class="th" x="340" y="42" text-anchor="middle" dominant-baseline="central">HOST App</text>
+      <text class="ts" x="340" y="58" text-anchor="middle" dominant-baseline="central">Mobile-first social events</text>
+
+      <line x1="340" y1="70" x2="340" y2="100" class="arr" marker-end="url(#arrow1)"/>
+
+      <g class="c-pink"><rect x="180" y="100" width="320" height="50" rx="8"/></g>
+      <text class="th" x="340" y="122" text-anchor="middle" dominant-baseline="central">Onboarding flow</text>
+      <text class="ts" x="340" y="138" text-anchor="middle" dominant-baseline="central">Splash, signup, verification, permissions</text>
+
+      <line x1="340" y1="150" x2="340" y2="180" class="arr" marker-end="url(#arrow1)"/>
+
+      <g class="c-purple"><rect x="220" y="180" width="240" height="50" rx="8"/></g>
+      <text class="th" x="340" y="202" text-anchor="middle" dominant-baseline="central">Main app shell</text>
+      <text class="ts" x="340" y="218" text-anchor="middle" dominant-baseline="central">5-tab bottom navigation</text>
+
+      <line x1="340" y1="230" x2="340" y2="260" class="arr"/>
+      <line x1="80" y1="270" x2="600" y2="270" stroke="#7F77DD" stroke-width="0.5"/>
+      <line x1="80" y1="260" x2="80" y2="290" stroke="#7F77DD" stroke-width="0.5"/>
+      <line x1="210" y1="260" x2="210" y2="290" stroke="#7F77DD" stroke-width="0.5"/>
+      <line x1="340" y1="260" x2="340" y2="290" stroke="#7F77DD" stroke-width="0.5"/>
+      <line x1="470" y1="260" x2="470" y2="290" stroke="#7F77DD" stroke-width="0.5"/>
+      <line x1="600" y1="260" x2="600" y2="290" stroke="#7F77DD" stroke-width="0.5"/>
+
+      <g class="c-teal"><rect x="20" y="290" width="120" height="44" rx="8"/></g>
+      <text class="th" x="80" y="312" text-anchor="middle" dominant-baseline="central">Home</text>
+
+      <g class="c-teal"><rect x="150" y="290" width="120" height="44" rx="8"/></g>
+      <text class="th" x="210" y="312" text-anchor="middle" dominant-baseline="central">Explore</text>
+
+      <g class="c-amber"><rect x="280" y="290" width="120" height="44" rx="8"/></g>
+      <text class="th" x="340" y="312" text-anchor="middle" dominant-baseline="central">Create event</text>
+
+      <g class="c-teal"><rect x="410" y="290" width="120" height="44" rx="8"/></g>
+      <text class="th" x="470" y="312" text-anchor="middle" dominant-baseline="central">Circles</text>
+
+      <g class="c-teal"><rect x="540" y="290" width="120" height="44" rx="8"/></g>
+      <text class="th" x="600" y="312" text-anchor="middle" dominant-baseline="central">Profile</text>
+
+      <line x1="80" y1="334" x2="80" y2="360" class="arr"/>
+      <rect x="20" y="360" width="120" height="180" rx="8" fill="none" stroke="#1D9E75" stroke-width="0.5" stroke-dasharray="3 3"/>
+      <text class="ts" x="80" y="378" text-anchor="middle">Feed</text>
+      <text class="ts" x="80" y="398" text-anchor="middle">Upcoming events</text>
+      <text class="ts" x="80" y="418" text-anchor="middle">Stories ribbon</text>
+      <text class="ts" x="80" y="438" text-anchor="middle">Friends activity</text>
+      <text class="ts" x="80" y="458" text-anchor="middle">Notifications</text>
+      <text class="ts" x="80" y="478" text-anchor="middle">DMs inbox</text>
+      <text class="ts" x="80" y="498" text-anchor="middle">Search bar</text>
+      <text class="ts" x="80" y="518" text-anchor="middle">Quick RSVP</text>
+
+      <line x1="210" y1="334" x2="210" y2="360" class="arr"/>
+      <rect x="150" y="360" width="120" height="220" rx="8" fill="none" stroke="#1D9E75" stroke-width="0.5" stroke-dasharray="3 3"/>
+      <text class="ts" x="210" y="378" text-anchor="middle">Map view</text>
+      <text class="ts" x="210" y="398" text-anchor="middle">List view</text>
+      <text class="ts" x="210" y="418" text-anchor="middle">Heat map</text>
+      <text class="ts" x="210" y="438" text-anchor="middle">Categories</text>
+      <text class="ts" x="210" y="458" text-anchor="middle">Trending tab</text>
+      <text class="ts" x="210" y="478" text-anchor="middle">Verified events</text>
+      <text class="ts" x="210" y="498" text-anchor="middle">City switcher</text>
+      <text class="ts" x="210" y="518" text-anchor="middle">Filters panel</text>
+      <text class="ts" x="210" y="538" text-anchor="middle">Saved events</text>
+      <text class="ts" x="210" y="558" text-anchor="middle">Geo-gated zone</text>
+
+      <line x1="340" y1="334" x2="340" y2="360" class="arr"/>
+      <rect x="280" y="360" width="120" height="220" rx="8" fill="none" stroke="#BA7517" stroke-width="0.5" stroke-dasharray="3 3"/>
+      <text class="ts" x="340" y="378" text-anchor="middle">Event details</text>
+      <text class="ts" x="340" y="398" text-anchor="middle">Date and time</text>
+      <text class="ts" x="340" y="418" text-anchor="middle">Location picker</text>
+      <text class="ts" x="340" y="438" text-anchor="middle">Cover photo</text>
+      <text class="ts" x="340" y="458" text-anchor="middle">Privacy toggle</text>
+      <text class="ts" x="340" y="478" text-anchor="middle">Guestlist attach</text>
+      <text class="ts" x="340" y="498" text-anchor="middle">Co-hosts</text>
+      <text class="ts" x="340" y="518" text-anchor="middle">Custom fields</text>
+      <text class="ts" x="340" y="538" text-anchor="middle">RSVP rules</text>
+      <text class="ts" x="340" y="558" text-anchor="middle">AI concierge</text>
+
+      <line x1="470" y1="334" x2="470" y2="360" class="arr"/>
+      <rect x="410" y="360" width="120" height="180" rx="8" fill="none" stroke="#1D9E75" stroke-width="0.5" stroke-dasharray="3 3"/>
+      <text class="ts" x="470" y="378" text-anchor="middle">My circles</text>
+      <text class="ts" x="470" y="398" text-anchor="middle">Discover circles</text>
+      <text class="ts" x="470" y="418" text-anchor="middle">Circle chat</text>
+      <text class="ts" x="470" y="438" text-anchor="middle">Circle events</text>
+      <text class="ts" x="470" y="458" text-anchor="middle">Polls</text>
+      <text class="ts" x="470" y="478" text-anchor="middle">Members list</text>
+      <text class="ts" x="470" y="498" text-anchor="middle">Verified hubs</text>
+      <text class="ts" x="470" y="518" text-anchor="middle">Direct messages</text>
+
+      <line x1="600" y1="334" x2="600" y2="360" class="arr"/>
+      <rect x="540" y="360" width="120" height="220" rx="8" fill="none" stroke="#1D9E75" stroke-width="0.5" stroke-dasharray="3 3"/>
+      <text class="ts" x="600" y="378" text-anchor="middle">My profile</text>
+      <text class="ts" x="600" y="398" text-anchor="middle">Hosted events</text>
+      <text class="ts" x="600" y="418" text-anchor="middle">Attended history</text>
+      <text class="ts" x="600" y="438" text-anchor="middle">Followers list</text>
+      <text class="ts" x="600" y="458" text-anchor="middle">Following list</text>
+      <text class="ts" x="600" y="478" text-anchor="middle">Host score</text>
+      <text class="ts" x="600" y="498" text-anchor="middle">Memories</text>
+      <text class="ts" x="600" y="518" text-anchor="middle">Settings</text>
+      <text class="ts" x="600" y="538" text-anchor="middle">Edit profile</text>
+      <text class="ts" x="600" y="558" text-anchor="middle">Saved guestlists</text>
+
+      <line x1="340" y1="600" x2="340" y2="630" class="arr" marker-end="url(#arrow1)"/>
+
+      <g class="c-coral"><rect x="120" y="630" width="440" height="50" rx="8"/></g>
+      <text class="th" x="340" y="652" text-anchor="middle" dominant-baseline="central">Cross-cutting screens</text>
+      <text class="ts" x="340" y="668" text-anchor="middle" dominant-baseline="central">Reachable from multiple tabs</text>
+
+      <line x1="340" y1="680" x2="340" y2="710" class="arr"/>
+      <line x1="100" y1="720" x2="580" y2="720" stroke="#D85A30" stroke-width="0.5"/>
+      <line x1="100" y1="710" x2="100" y2="740" stroke="#D85A30" stroke-width="0.5"/>
+      <line x1="260" y1="710" x2="260" y2="740" stroke="#D85A30" stroke-width="0.5"/>
+      <line x1="420" y1="710" x2="420" y2="740" stroke="#D85A30" stroke-width="0.5"/>
+      <line x1="580" y1="710" x2="580" y2="740" stroke="#D85A30" stroke-width="0.5"/>
+
+      <g class="c-coral"><rect x="40" y="740" width="120" height="56" rx="8"/></g>
+      <text class="th" x="100" y="758" text-anchor="middle" dominant-baseline="central">Event page</text>
+      <text class="ts" x="100" y="776" text-anchor="middle" dominant-baseline="central">Public view</text>
+
+      <g class="c-coral"><rect x="200" y="740" width="120" height="56" rx="8"/></g>
+      <text class="th" x="260" y="758" text-anchor="middle" dominant-baseline="central">Guestlist view</text>
+      <text class="ts" x="260" y="776" text-anchor="middle" dominant-baseline="central">RSVPs and reactions</text>
+
+      <g class="c-coral"><rect x="360" y="740" width="120" height="56" rx="8"/></g>
+      <text class="th" x="420" y="758" text-anchor="middle" dominant-baseline="central">Memories thread</text>
+      <text class="ts" x="420" y="776" text-anchor="middle" dominant-baseline="central">Post-event recap</text>
+
+      <g class="c-coral"><rect x="520" y="740" width="120" height="56" rx="8"/></g>
+      <text class="th" x="580" y="758" text-anchor="middle" dominant-baseline="central">Check-in screen</text>
+      <text class="ts" x="580" y="776" text-anchor="middle" dominant-baseline="central">QR or face ID</text>
+
+      <g class="c-coral"><rect x="40" y="820" width="120" height="56" rx="8"/></g>
+      <text class="th" x="100" y="838" text-anchor="middle" dominant-baseline="central">User profile</text>
+      <text class="ts" x="100" y="856" text-anchor="middle" dominant-baseline="central">Other users</text>
+
+      <g class="c-coral"><rect x="200" y="820" width="120" height="56" rx="8"/></g>
+      <text class="th" x="260" y="838" text-anchor="middle" dominant-baseline="central">Chat thread</text>
+      <text class="ts" x="260" y="856" text-anchor="middle" dominant-baseline="central">DMs and event chats</text>
+
+      <g class="c-coral"><rect x="360" y="820" width="120" height="56" rx="8"/></g>
+      <text class="th" x="420" y="838" text-anchor="middle" dominant-baseline="central">Notifications</text>
+      <text class="ts" x="420" y="856" text-anchor="middle" dominant-baseline="central">Bell icon center</text>
+
+      <g class="c-coral"><rect x="520" y="820" width="120" height="56" rx="8"/></g>
+      <text class="th" x="580" y="838" text-anchor="middle" dominant-baseline="central">Search results</text>
+      <text class="ts" x="580" y="856" text-anchor="middle" dominant-baseline="central">Users, events, circles</text>
+
+      <g class="c-coral"><rect x="40" y="900" width="120" height="56" rx="8"/></g>
+      <text class="th" x="100" y="918" text-anchor="middle" dominant-baseline="central">Emergency mode</text>
+      <text class="ts" x="100" y="936" text-anchor="middle" dominant-baseline="central">Safety report</text>
+
+      <g class="c-coral"><rect x="200" y="900" width="120" height="56" rx="8"/></g>
+      <text class="th" x="260" y="918" text-anchor="middle" dominant-baseline="central">AI concierge</text>
+      <text class="ts" x="260" y="936" text-anchor="middle" dominant-baseline="central">Premium chat</text>
+
+      <g class="c-coral"><rect x="360" y="900" width="120" height="56" rx="8"/></g>
+      <text class="th" x="420" y="918" text-anchor="middle" dominant-baseline="central">Business panel</text>
+      <text class="ts" x="420" y="936" text-anchor="middle" dominant-baseline="central">Analytics, CRM</text>
+
+      <g class="c-coral"><rect x="520" y="900" width="120" height="56" rx="8"/></g>
+      <text class="th" x="580" y="918" text-anchor="middle" dominant-baseline="central">Verification flow</text>
+      <text class="ts" x="580" y="936" text-anchor="middle" dominant-baseline="central">Super host badge</text>
+
+      <g class="c-blue"><rect x="40" y="1000" width="600" height="160" rx="8"/></g>
+      <text class="th" x="340" y="1024" text-anchor="middle" dominant-baseline="central">Legend</text>
+      <g class="c-pink"><rect x="60" y="1050" width="20" height="20" rx="4"/></g>
+      <text class="ts" x="90" y="1064" dominant-baseline="central">Onboarding</text>
+      <g class="c-purple"><rect x="180" y="1050" width="20" height="20" rx="4"/></g>
+      <text class="ts" x="210" y="1064" dominant-baseline="central">App shell</text>
+      <g class="c-teal"><rect x="290" y="1050" width="20" height="20" rx="4"/></g>
+      <text class="ts" x="320" y="1064" dominant-baseline="central">Main tabs</text>
+      <g class="c-amber"><rect x="400" y="1050" width="20" height="20" rx="4"/></g>
+      <text class="ts" x="430" y="1064" dominant-baseline="central">Create flow</text>
+      <g class="c-coral"><rect x="510" y="1050" width="20" height="20" rx="4"/></g>
+      <text class="ts" x="540" y="1064" dominant-baseline="central">Cross-cutting</text>
+      <text class="ts" x="60" y="1100" dominant-baseline="central">Total estimated screens: 60+ unique views across the app</text>
+      <text class="ts" x="60" y="1124" dominant-baseline="central">Bottom nav stays persistent across the 5 main tabs</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ USER FLOW ============ -->
+<section>
+  <div class="corner-logo">HOST</div>
+  <div class="section-header">
+    <div class="section-eyebrow">USER JOURNEY</div>
+    <h2 class="section-title">From signup to memory.</h2>
+    <p class="section-desc">
+      Three core paths flow out of the home feed. Guests find events, hosts create them,
+      and circles spin off quick gatherings. Everything converges at check-in and memories.
+    </p>
+  </div>
+  <div class="diagram-wrap">
+    <svg width="100%" viewBox="0 0 680 920" xmlns="http://www.w3.org/2000/svg" role="img">
+      <title>HOST app user flow diagram</title>
+      <defs>
+        <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <text class="th" x="340" y="30" text-anchor="middle" font-size="16">User journey flow</text>
+
+      <g class="c-pink"><rect x="260" y="60" width="160" height="44" rx="8"/></g>
+      <text class="th" x="340" y="82" text-anchor="middle" dominant-baseline="central">Splash screen</text>
+      <line x1="340" y1="104" x2="340" y2="130" class="arr" marker-end="url(#arrow2)"/>
+
+      <g class="c-pink"><rect x="260" y="130" width="160" height="44" rx="8"/></g>
+      <text class="th" x="340" y="152" text-anchor="middle" dominant-baseline="central">Phone signup</text>
+      <line x1="340" y1="174" x2="340" y2="200" class="arr" marker-end="url(#arrow2)"/>
+
+      <g class="c-pink"><rect x="260" y="200" width="160" height="44" rx="8"/></g>
+      <text class="th" x="340" y="222" text-anchor="middle" dominant-baseline="central">SMS verification</text>
+      <line x1="340" y1="244" x2="340" y2="270" class="arr" marker-end="url(#arrow2)"/>
+
+      <g class="c-pink"><rect x="260" y="270" width="160" height="44" rx="8"/></g>
+      <text class="th" x="340" y="292" text-anchor="middle" dominant-baseline="central">Profile setup</text>
+      <line x1="340" y1="314" x2="340" y2="340" class="arr" marker-end="url(#arrow2)"/>
+
+      <g class="c-pink"><rect x="260" y="340" width="160" height="44" rx="8"/></g>
+      <text class="th" x="340" y="362" text-anchor="middle" dominant-baseline="central">Permissions</text>
+      <line x1="340" y1="384" x2="340" y2="410" class="arr" marker-end="url(#arrow2)"/>
+
+      <g class="c-purple"><rect x="240" y="410" width="200" height="50" rx="8"/></g>
+      <text class="th" x="340" y="430" text-anchor="middle" dominant-baseline="central">Home feed</text>
+      <text class="ts" x="340" y="448" text-anchor="middle" dominant-baseline="central">Main hub after login</text>
+
+      <path d="M 240 435 L 80 435 L 80 510" class="arr" marker-end="url(#arrow2)"/>
+      <path d="M 340 460 L 340 510" class="arr" marker-end="url(#arrow2)"/>
+      <path d="M 440 435 L 600 435 L 600 510" class="arr" marker-end="url(#arrow2)"/>
+
+      <g class="c-teal"><rect x="20" y="510" width="120" height="56" rx="8"/></g>
+      <text class="th" x="80" y="528" text-anchor="middle" dominant-baseline="central">Explore</text>
+      <text class="ts" x="80" y="546" text-anchor="middle" dominant-baseline="central">Find events</text>
+
+      <g class="c-amber"><rect x="280" y="510" width="120" height="56" rx="8"/></g>
+      <text class="th" x="340" y="528" text-anchor="middle" dominant-baseline="central">Create event</text>
+      <text class="ts" x="340" y="546" text-anchor="middle" dominant-baseline="central">Host path</text>
+
+      <g class="c-teal"><rect x="540" y="510" width="120" height="56" rx="8"/></g>
+      <text class="th" x="600" y="528" text-anchor="middle" dominant-baseline="central">Circles</text>
+      <text class="ts" x="600" y="546" text-anchor="middle" dominant-baseline="central">Group chats</text>
+
+      <line x1="80" y1="566" x2="80" y2="600" class="arr" marker-end="url(#arrow2)"/>
+      <g class="c-teal"><rect x="20" y="600" width="120" height="56" rx="8"/></g>
+      <text class="th" x="80" y="618" text-anchor="middle" dominant-baseline="central">Event page</text>
+      <text class="ts" x="80" y="636" text-anchor="middle" dominant-baseline="central">Tap on event</text>
+
+      <line x1="80" y1="656" x2="80" y2="690" class="arr" marker-end="url(#arrow2)"/>
+      <g class="c-teal"><rect x="20" y="690" width="120" height="56" rx="8"/></g>
+      <text class="th" x="80" y="708" text-anchor="middle" dominant-baseline="central">RSVP yes</text>
+      <text class="ts" x="80" y="726" text-anchor="middle" dominant-baseline="central">Join guestlist</text>
+
+      <line x1="340" y1="566" x2="340" y2="600" class="arr" marker-end="url(#arrow2)"/>
+      <g class="c-amber"><rect x="280" y="600" width="120" height="56" rx="8"/></g>
+      <text class="th" x="340" y="618" text-anchor="middle" dominant-baseline="central">Add details</text>
+      <text class="ts" x="340" y="636" text-anchor="middle" dominant-baseline="central">Date, location, etc.</text>
+
+      <line x1="340" y1="656" x2="340" y2="690" class="arr" marker-end="url(#arrow2)"/>
+      <g class="c-amber"><rect x="280" y="690" width="120" height="56" rx="8"/></g>
+      <text class="th" x="340" y="708" text-anchor="middle" dominant-baseline="central">Attach guestlist</text>
+      <text class="ts" x="340" y="726" text-anchor="middle" dominant-baseline="central">Pick from folders</text>
+
+      <line x1="600" y1="566" x2="600" y2="600" class="arr" marker-end="url(#arrow2)"/>
+      <g class="c-teal"><rect x="540" y="600" width="120" height="56" rx="8"/></g>
+      <text class="th" x="600" y="618" text-anchor="middle" dominant-baseline="central">Circle chat</text>
+      <text class="ts" x="600" y="636" text-anchor="middle" dominant-baseline="central">Group thread</text>
+
+      <line x1="600" y1="656" x2="600" y2="690" class="arr" marker-end="url(#arrow2)"/>
+      <g class="c-teal"><rect x="540" y="690" width="120" height="56" rx="8"/></g>
+      <text class="th" x="600" y="708" text-anchor="middle" dominant-baseline="central">Quick event</text>
+      <text class="ts" x="600" y="726" text-anchor="middle" dominant-baseline="central">From circle</text>
+
+      <path d="M 80 746 L 80 790 L 340 790" class="arr" marker-end="url(#arrow2)"/>
+      <path d="M 340 746 L 340 790" class="arr" marker-end="url(#arrow2)"/>
+      <path d="M 600 746 L 600 790 L 340 790" class="arr" marker-end="url(#arrow2)"/>
+
+      <g class="c-coral"><rect x="280" y="790" width="120" height="56" rx="8"/></g>
+      <text class="th" x="340" y="808" text-anchor="middle" dominant-baseline="central">Check-in</text>
+      <text class="ts" x="340" y="826" text-anchor="middle" dominant-baseline="central">QR or face ID</text>
+
+      <line x1="340" y1="846" x2="340" y2="880" class="arr" marker-end="url(#arrow2)"/>
+      <g class="c-coral"><rect x="280" y="880" width="120" height="36" rx="8"/></g>
+      <text class="th" x="340" y="898" text-anchor="middle" dominant-baseline="central">Memories</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ MOCKUPS PART 1: HOME + CREATE ============ -->
+<section>
+  <div class="corner-logo">HOST</div>
+  <div class="section-header">
+    <div class="section-eyebrow">VISUAL MOCKUPS</div>
+    <h2 class="section-title">Home & event creation.</h2>
+    <p class="section-desc">
+      The home feed greets users with stories, upcoming events, and friends' activity.
+      The create event flow is intentionally minimal: just a title, date, location, and guestlist.
+    </p>
+  </div>
+  <div class="mockup-grid">
+
+    <!-- HOME FEED -->
+    <div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span style="display: flex; gap: 4px;"><i class="ti ti-signal-4g" style="font-size: 13px;"></i><i class="ti ti-battery-3" style="font-size: 13px;"></i></span>
+          </div>
+          <div class="top-bar">
+            <i class="ti ti-search top-icon"></i>
+            <span class="top-logo">HOST</span>
+            <i class="ti ti-bell top-icon"></i>
+          </div>
+          <div class="stories">
+            <div class="story-item">
+              <div class="story-circle story-add">+</div>
+              <div class="story-name">Your story</div>
+            </div>
+            <div class="story-item">
+              <div class="story-circle" style="background: linear-gradient(135deg, #D4537E, #4B1528);">SR</div>
+              <div class="story-name">Sara</div>
+            </div>
+            <div class="story-item">
+              <div class="story-circle" style="background: #2a2a2a;">KM</div>
+              <div class="story-name">Khalid</div>
+            </div>
+            <div class="story-item">
+              <div class="story-circle" style="background: linear-gradient(135deg, #1D9E75, #04342C);">JL</div>
+              <div class="story-name">Jana</div>
+            </div>
+            <div class="story-item">
+              <div class="story-circle" style="background: linear-gradient(135deg, #BA7517, #412402);">AB</div>
+              <div class="story-name">Abdullah</div>
+            </div>
+          </div>
+          <div class="section-label">UPCOMING</div>
+          <div class="event-card">
+            <div class="event-cover jazz">
+              <div class="event-tag">SAT 26 APR · 9 PM</div>
+              <div class="event-title">Rooftop Jazz Night</div>
+            </div>
+            <div class="event-footer">
+              <div style="display: flex; align-items: center;">
+                <div class="avatars">
+                  <div class="avatar" style="background: #D4537E;"></div>
+                  <div class="avatar" style="background: #1D9E75;"></div>
+                  <div class="avatar" style="background: #BA7517;"></div>
+                </div>
+                <span class="going-count">142 going</span>
+              </div>
+              <button class="rsvp-btn">RSVP</button>
+            </div>
+          </div>
+          <div class="section-label">FRIENDS' ACTIVITY</div>
+          <div class="activity-card">
+            <div class="activity-head">
+              <div class="activity-avatar">AB</div>
+              <div class="activity-text"><strong>Abdullah</strong> checked in at</div>
+            </div>
+            <div class="activity-event">Padel Sundays · Aspire</div>
+            <div class="activity-meta">Just now · with 11 others</div>
+          </div>
+          <div class="bottom-nav">
+            <div class="nav-item active"><i class="ti ti-home nav-icon"></i><div class="nav-label">Home</div></div>
+            <div class="nav-item"><i class="ti ti-map-2 nav-icon"></i><div class="nav-label">Explore</div></div>
+            <div class="nav-item"><div class="nav-create"><i class="ti ti-plus"></i></div></div>
+            <div class="nav-item"><i class="ti ti-message-circle nav-icon"></i><div class="nav-label">Circles</div></div>
+            <div class="nav-item"><i class="ti ti-user nav-icon"></i><div class="nav-label">Profile</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">Home feed</div>
+    </div>
+
+    <!-- CREATE EVENT -->
+    <div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span style="display: flex; gap: 4px;"><i class="ti ti-signal-4g" style="font-size: 13px;"></i><i class="ti ti-battery-3" style="font-size: 13px;"></i></span>
+          </div>
+          <div class="form-bar">
+            <i class="ti ti-arrow-left back"></i>
+            <span class="title">Create event</span>
+            <span class="next">Next</span>
+          </div>
+          <div class="form-body">
+            <div class="upload-area">
+              <i class="ti ti-camera"></i>
+              <span>Add cover photo</span>
+            </div>
+            <div class="field">
+              <div class="field-label">EVENT NAME</div>
+              <div class="field-input">Rooftop Jazz Night</div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <div class="field-label">DATE</div>
+                <div class="field-input">Sat 26 Apr</div>
+              </div>
+              <div class="field">
+                <div class="field-label">TIME</div>
+                <div class="field-input">9:00 PM</div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-label">LOCATION</div>
+              <div class="field-input icon-input">
+                <i class="ti ti-map-pin"></i>
+                <span>The Terrace, Doha</span>
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-input icon-input" style="justify-content: flex-start;">
+                <i class="ti ti-users"></i>
+                <span style="color: #888; flex: 1;">Attach guestlist</span>
+                <span style="color: #D4537E; font-size: 11px;">3 selected</span>
+              </div>
+            </div>
+            <div class="toggle-row">
+              <span>Public event</span>
+              <div class="toggle on"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row">
+              <span>Allow plus-ones</span>
+              <div class="toggle off"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row">
+              <span>Show guestlist</span>
+              <div class="toggle on"><div class="toggle-knob"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">Create event</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============ ALL PAGES LIST ============ -->
+<section>
+  <div class="corner-logo">HOST</div>
+  <div class="section-header">
+    <div class="section-eyebrow">SCREEN INVENTORY</div>
+    <h2 class="section-title">Every screen we'll build.</h2>
+    <p class="section-desc">
+      A full breakdown of all 60+ unique screens grouped by feature area,
+      from authentication all the way to the AI concierge.
+    </p>
+  </div>
+  <div class="pages-grid">
+
+    <div class="page-group">
+      <div class="page-group-title">Authentication</div>
+      <div class="page-group-count">8 screens</div>
+      <ul class="page-list">
+        <li>Splash screen</li>
+        <li>Welcome / intro</li>
+        <li>Phone number input</li>
+        <li>OTP verification</li>
+        <li>Email verification</li>
+        <li>Username & password</li>
+        <li>Profile creation</li>
+        <li>Permissions request</li>
+      </ul>
+    </div>
+
+    <div class="page-group">
+      <div class="page-group-title">Home tab</div>
+      <div class="page-group-count">7 screens</div>
+      <ul class="page-list">
+        <li>Main feed</li>
+        <li>Stories viewer</li>
+        <li>Notifications center</li>
+        <li>DMs inbox</li>
+        <li>Quick search</li>
+        <li>Friends activity</li>
+        <li>Quick RSVP modal</li>
+      </ul>
+    </div>
+
+    <div class="page-group">
+      <div class="page-group-title">Explore tab</div>
+      <div class="page-group-count">10 screens</div>
+      <ul class="page-list">
+        <li>Map view</li>
+        <li>List view</li>
+        <li>Heat map</li>
+        <li>Categories filter</li>
+        <li>Trending events</li>
+        <li>Verified events</li>
+        <li>City switcher</li>
+        <li>Saved events</li>
+        <li>Geo-gated zones</li>
+        <li>Advanced filters</li>
+      </ul>
+    </div>
+
+    <div class="page-group">
+      <div class="page-group-title">Create event flow</div>
+      <div class="page-group-count">10 screens</div>
+      <ul class="page-list">
+        <li>Basic info</li>
+        <li>Cover photo upload</li>
+        <li>Location picker</li>
+        <li>Date & time</li>
+        <li>Privacy settings</li>
+        <li>Guestlist selector</li>
+        <li>Co-hosts management</li>
+        <li>Custom questions</li>
+        <li>RSVP rules</li>
+        <li>Preview & publish</li>
+      </ul>
+    </div>
+
+    <div class="page-group">
+      <div class="page-group-title">Circles tab</div>
+      <div class="page-group-count">8 screens</div>
+      <ul class="page-list">
+        <li>My circles list</li>
+        <li>Discover circles</li>
+        <li>Circle home</li>
+        <li>Circle chat thread</li>
+        <li>Members list</li>
+        <li>Polls view</li>
+        <li>Verified hubs directory</li>
+        <li>Quick event from circle</li>
+      </ul>
+    </div>
+
+    <div class="page-group">
+      <div class="page-group-title">Profile tab</div>
+      <div class="page-group-count">11 screens</div>
+      <ul class="page-list">
+        <li>My profile</li>
+        <li>Hosted history</li>
+        <li>Attended events</li>
+        <li>Followers list</li>
+        <li>Following list</li>
+        <li>Host score detail</li>
+        <li>Memories grid</li>
+        <li>Memory map</li>
+        <li>Saved guestlists</li>
+        <li>Edit profile</li>
+        <li>Settings</li>
+      </ul>
+    </div>
+
+    <div class="page-group">
+      <div class="page-group-title">Cross-cutting</div>
+      <div class="page-group-count">8 screens</div>
+      <ul class="page-list">
+        <li>Public event page</li>
+        <li>Guestlist view</li>
+        <li>Memories thread</li>
+        <li>Check-in (QR / Face ID)</li>
+        <li>Other user profile</li>
+        <li>Chat thread</li>
+        <li>Search results</li>
+        <li>Verification flow</li>
+      </ul>
+    </div>
+
+    <div class="page-group">
+      <div class="page-group-title">Premium & business</div>
+      <div class="page-group-count">6 screens</div>
+      <ul class="page-list">
+        <li>Emergency mode</li>
+        <li>AI concierge chat</li>
+        <li>Business profile</li>
+        <li>Analytics dashboard</li>
+        <li>CRM panel</li>
+        <li>Promote event</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ END ============ -->
+<div class="end">
+  <div class="host-logo">HOST</div>
+  <div class="end-tag">EVERYWHERE, ANYWHERE.</div>
+</div>
+
+</body>
+</html>
