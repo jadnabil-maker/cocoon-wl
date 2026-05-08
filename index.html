@@ -76,21 +76,10 @@
   /* CREAM AREA — top section with chrome + stage; grows to fill what the stage needs */
   .cream-area {
     position: relative;
-    /* Palette: Stone Brown · Shadow Grey · Coffee Bean · Dark Walnut · Rich Mahogany · Carbon Black */
-    background:
-      radial-gradient(ellipse 110% 80% at 50% 72%,
-        rgba(83, 40, 22, 0.55) 0%,    /* Dark Walnut #532816 */
-        rgba(67, 23, 9, 0.32) 38%,    /* Rich Mahogany #431709 */
-        rgba(0, 0, 0, 0) 80%),
-      linear-gradient(in oklab to bottom,
-        #685d4e 0%,    /* Stone Brown */
-        #6e6153 12%,   /* Stone Brown 3 */
-        #5a5045 26%,   /* transitional warm taupe */
-        #3f352b 44%,   /* warm dark transitional */
-        #2e2725 58%,   /* Shadow Grey */
-        #3a1f15 76%,   /* dark mahogany blend */
-        #532816 92%,   /* Dark Walnut */
-        #431709 100%); /* Rich Mahogany */
+    /* Two-color gradient: Stone Brown → Rich Mahogany */
+    background: linear-gradient(in oklab to bottom,
+      #685d4e 0%,
+      #431709 100%);
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
@@ -98,17 +87,14 @@
     overflow: visible;
   }
 
-  /* FADE TRANSITION — Rich Mahogany → Coffee Bean → Carbon Black */
+  /* FADE TRANSITION — Rich Mahogany → Carbon Black */
   .stripes {
     position: relative;
     width: 100%;
     height: 280px;
-    background:
-      linear-gradient(in oklab to bottom,
-        #431709 0%,    /* Rich Mahogany */
-        #2a120a 30%,   /* dark mahogany blend */
-        #1a1615 65%,   /* Coffee Bean */
-        #1c1c1e 100%); /* Carbon Black */
+    background: linear-gradient(in oklab to bottom,
+      #431709 0%,
+      #1c1c1e 100%);
     z-index: 1;
     flex-shrink: 0;
   }
