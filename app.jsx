@@ -356,6 +356,12 @@ function App() {
         <div className="cream-area">
         <header className="chrome">
           <div className="brand">
+            <img
+              className="brand-sphere"
+              src="https://i.ibb.co/rKWbSv0W/Name-options-1-4.png"
+              alt=""
+              aria-hidden="true"
+            />
             Sinna
           </div>
           <div className="status-pill">
@@ -364,12 +370,6 @@ function App() {
             <span>{fmt(animSeatsLeft)} seats left of {fmt(total)}</span>
             <ChevDown/>
           </div>
-          <img
-            className="brand-sphere"
-            src="https://i.ibb.co/rKWbSv0W/Name-options-1-4.png"
-            alt=""
-            aria-hidden="true"
-          />
         </header>
 
         <main className="stage">
