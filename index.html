@@ -76,20 +76,21 @@
   /* CREAM AREA — top section with chrome + stage; grows to fill what the stage needs */
   .cream-area {
     position: relative;
+    /* Palette: Stone Brown · Shadow Grey · Coffee Bean · Dark Walnut · Rich Mahogany · Carbon Black */
     background:
-      radial-gradient(ellipse 110% 85% at 50% 70%,
-        rgba(180, 88, 38, 0.55) 0%,
-        rgba(140, 65, 28, 0.35) 28%,
-        rgba(85, 38, 18, 0.18) 55%,
-        rgba(0, 0, 0, 0) 82%),
+      radial-gradient(ellipse 110% 80% at 50% 72%,
+        rgba(83, 40, 22, 0.55) 0%,    /* Dark Walnut #532816 */
+        rgba(67, 23, 9, 0.32) 38%,    /* Rich Mahogany #431709 */
+        rgba(0, 0, 0, 0) 80%),
       linear-gradient(in oklab to bottom,
-        #3D3025 0%,
-        #483428 18%,
-        #5A3826 38%,
-        #6A3622 55%,
-        #5A2E1B 72%,
-        #3A1F14 90%,
-        #1F120B 100%);
+        #685d4e 0%,    /* Stone Brown */
+        #6e6153 12%,   /* Stone Brown 3 */
+        #5a5045 26%,   /* transitional warm taupe */
+        #3f352b 44%,   /* warm dark transitional */
+        #2e2725 58%,   /* Shadow Grey */
+        #3a1f15 76%,   /* dark mahogany blend */
+        #532816 92%,   /* Dark Walnut */
+        #431709 100%); /* Rich Mahogany */
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
@@ -97,27 +98,26 @@
     overflow: visible;
   }
 
-  /* FADE TRANSITION — continues from cream-area's warm dark bottom into black */
+  /* FADE TRANSITION — Rich Mahogany → Coffee Bean → Carbon Black */
   .stripes {
     position: relative;
     width: 100%;
     height: 280px;
     background:
       linear-gradient(in oklab to bottom,
-        #1F120B 0%,
-        #150C07 40%,
-        #0F0A07 70%,
-        #0B0908 100%);
+        #431709 0%,    /* Rich Mahogany */
+        #2a120a 30%,   /* dark mahogany blend */
+        #1a1615 65%,   /* Coffee Bean */
+        #1c1c1e 100%); /* Carbon Black */
     z-index: 1;
     flex-shrink: 0;
   }
-  /* haze at top edge to blur seam between cream-area and stripes */
   .stripes::before {
     content: "";
     position: absolute;
     inset: -1px 0 auto 0;
     height: 60px;
-    background: linear-gradient(180deg, #1F120B 0%, transparent 100%);
+    background: linear-gradient(180deg, #431709 0%, transparent 100%);
     pointer-events: none;
   }
 
@@ -145,13 +145,13 @@
     opacity: .35;
   }
 
-  /* Light text overrides on the warm dark cream-area */
-  .cream-area .brand { color: #F0E5CF; }
-  .cream-area .headline { color: #F1E7D0; }
-  .cream-area .headline em { color: #F1E7D0; }
-  .cream-area .sub { color: #C5B89B; }
-  .cream-area .eyebrow { color: #B8A982; }
-  .cream-area .eyebrow::before, .cream-area .eyebrow::after { background: rgba(241, 231, 208, 0.22); }
+  /* Light text overrides on the warm dark cream-area (Desert Sand palette) */
+  .cream-area .brand { color: #ebd5c2; }
+  .cream-area .headline { color: #ebd5c2; }
+  .cream-area .headline em { color: #ebd5c2; }
+  .cream-area .sub { color: #d6bdae; } /* Desert Sand */
+  .cream-area .eyebrow { color: #b5a08a; }
+  .cream-area .eyebrow::before, .cream-area .eyebrow::after { background: rgba(214, 189, 174, 0.22); }
 
   /* -------- TOP CHROME -------- */
   .chrome {
