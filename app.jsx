@@ -371,7 +371,6 @@ function App() {
         </header>
 
         <main className="stage">
-          <div className="eyebrow">Private Beta · Q3 2026</div>
           <h1 className="headline">
             {stage === "success"
               ? <>Welcome to <em>Sinna</em>.</>
@@ -425,6 +424,7 @@ function App() {
             src="https://i.ibb.co/rKWbSv0W/Name-options-1-4.png"
             alt="Sinna"
           />
+          <div className="footer-tag">Private Beta</div>
         </div>
       </div>
 
