@@ -645,21 +645,23 @@
       line-height: 1.15;
       letter-spacing: -0.6px;
       text-align: left;
-      max-width: 100%;
-      margin-left: 0;
-      margin-right: 0;
+      margin-left: 4%;
+      margin-right: 4%;
     }
     .sub {
       font-size: 14px;
       line-height: 1.55;
       text-align: left;
-      max-width: 100%;
-      margin-left: 0;
-      margin-right: 0;
+      max-width: none;
+      margin-left: 4%;
+      margin-right: 4%;
     }
-    /* Match the eyebrow & content alignment to the same left edge */
+    /* Match eyebrow's left edge to headline/sub/panel (4% inset from stage) */
     .stage { align-items: stretch; }
-    .eyebrow { align-self: flex-start; }
+    .eyebrow {
+      align-self: flex-start;
+      margin-left: 4%;
+    }
     .stage { padding-top: 16px; padding-left: 20px; padding-right: 20px; }
     .tile { padding: 16px 18px 18px; }
     .tile-title { font-size: 16px; }
