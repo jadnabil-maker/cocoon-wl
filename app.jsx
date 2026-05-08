@@ -357,12 +357,10 @@ function App() {
         <header className="chrome">
           <div className="brand">
             <img
-              className="brand-sphere"
-              src="https://i.ibb.co/rKWbSv0W/Name-options-1-4.png"
-              alt=""
-              aria-hidden="true"
+              className="brand-logo"
+              src="https://i.ibb.co/Y7MStLBn/5aafe9ac-4f10-4a15-84b0-e417fd27c72e.png"
+              alt="Sinna"
             />
-            Sinna
           </div>
           <div className="status-pill">
             <span className="dot"/>

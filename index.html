@@ -132,12 +132,12 @@
     opacity: .35;
   }
 
-  /* Sphere logo next to the Sinna brand text (desktop only) */
-  .brand-sphere {
-    width: 42px;
-    height: 42px;
+  /* Brand logo image (replaces "Sinna" text + sphere on both mobile and desktop) */
+  .brand-logo {
+    height: 44px;
+    width: auto;
+    display: block;
     object-fit: contain;
-    opacity: 0.9;
     flex-shrink: 0;
     pointer-events: none;
     -webkit-user-select: none;
@@ -613,7 +613,7 @@
   @media (max-width: 720px) {
     .chrome { grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px 18px; }
     .status-pill { display: none; }
-    .brand-sphere { display: none; }
+    .brand-logo { height: 30px; }
     .panel-grid { grid-template-columns: 1fr; }
     .stage { padding: 24px 16px 60px; }
     .stripes-side { width: 14%; height: 38%; }
